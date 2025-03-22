@@ -22,6 +22,16 @@ public class SoundManager : MonoBehaviour
     public bool canPlayPlayerFootstep = true;
     [Header("door sound")]
     public AudioClip DoorBell_Clip;
+    [Header("scan sound")]
+    public AudioClip Scan_Clip;
+    [Header("cash sound")]
+    public AudioClip Cash_Clip;
+    [Header("angry sound")]
+    public AudioClip Angry_Clip;
+    [Header("byebye sound")]
+    public AudioClip Byebye_Clip;
+    [Header("itemPop sound")]
+    public AudioClip ItemPop_Clip;
     
     [Header("Main menu button refs")]
     public Button MainMenu_StartNewGame_Button;
@@ -84,7 +94,37 @@ public class SoundManager : MonoBehaviour
         AudioSource validAudioSource = GetAvailableAudioSource();
         if(validAudioSource!= null) validAudioSource.PlayOneShot(ButtonClick_Clip, 0.5f);
     }
-
+    
+    public void PlayClip_Scan()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Scan_Clip);
+    }
+    
+    public void PlayClip_Cash()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Cash_Clip);
+    }
+    
+    public void PlayClip_Angry()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Angry_Clip, 0.5f);
+    }
+    
+    public void PlayClip_Byebye()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Byebye_Clip, 0.5f);
+    }
+    
+    public void PlayClip_ItemPop()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(ItemPop_Clip, 0.5f);
+    }
+    
     void SetUp_MainMenuButtonOnClick()
     {
         MainMenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick);

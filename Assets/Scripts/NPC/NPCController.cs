@@ -251,6 +251,7 @@ public class NPCController : MonoBehaviour
                 if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
                 {
                     Debug.Log("Throw");
+                    SoundManager.instance.PlayClip_Angry();
                     npcAnimator.NPC_ThrowAnimation();
                     yield return new WaitForSeconds(0.65f);
                     unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, throwFrom);
@@ -262,6 +263,7 @@ public class NPCController : MonoBehaviour
                 else
                 {
                     Debug.Log("normal");
+                    SoundManager.instance.PlayClip_ItemPop();
                     unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, productInitArea);
                 }
                 unCheckedProductsList.Add(unCheckedProduct);
@@ -310,6 +312,7 @@ public class NPCController : MonoBehaviour
         _isPaid = true;
         if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
         {
+            SoundManager.instance.PlayClip_Angry();
             npcAnimator.NPC_ThrowAnimation();
             yield return new WaitForSeconds(0.3f);
             moneyObj = Instantiate(_npcCustomer.moneyPrefab, throwFrom.position, Quaternion.LookRotation(transform.up));
@@ -320,6 +323,7 @@ public class NPCController : MonoBehaviour
         else
         {
             npcAnimator.NPC_PayAnimation();
+            SoundManager.instance.PlayClip_ItemPop();
             moneyObj = Instantiate(_npcCustomer.moneyPrefab, moneyInitArea.position, Quaternion.LookRotation(transform.up));
         }
         moneyObj.GetComponent<MoneyObj>().money = _npcShoppingList.GetCustomerPaid();
@@ -332,6 +336,7 @@ public class NPCController : MonoBehaviour
         Debug.Log("WaitingForReceiveChange");
         if(moneyObj.GetComponent<MoneyObj>().playerReceived)
         {
+            if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) SoundManager.instance.PlayClip_Byebye();
             Debug.Log("player leave");
             CounterQueueManager.instance.RemoveFirst();
             CounterQueueManager.instance.UpdateQueue();

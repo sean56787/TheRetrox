@@ -66,6 +66,7 @@ public class Scanner : MonoBehaviour, IInteractable
                 itemToScan.transform.GetComponent<ProductObj>() != null && //是商品Obj
                 !itemToScan.GetComponent<ProductObj>().isChecked) // 還沒被掃描過
             {
+                SoundManager.instance.PlayClip_Scan();
                 itemToScan.GetComponent<ProductObj>().Highlight();
                 itemToScan.GetComponent<ProductObj>().isChecked = true;
             }
@@ -90,7 +91,7 @@ public class Scanner : MonoBehaviour, IInteractable
     
     void Holding()
     {
-        transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.3f, -0.2f, 0.8f));
+        transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.55f, -0.45f, 0.8f));
         transform.rotation = Quaternion.LookRotation(playerCameraTransform.forward, Vector3.up);
         transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
         GetComponent<Rigidbody>().isKinematic = true;

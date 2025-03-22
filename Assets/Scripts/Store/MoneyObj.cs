@@ -17,6 +17,7 @@ public class MoneyObj : MonoBehaviour, IInteractable
     {
         if (interactorTransform.GetComponent<Player>() != null) //是玩家
         {
+            SoundManager.instance.PlayClip_Cash();
             playerTransform = interactorTransform;
             absorbing = true;
             playerReceived = true;
