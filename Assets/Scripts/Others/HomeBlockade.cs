@@ -12,12 +12,13 @@ public class HomeBlockade : MonoBehaviour, IInteractable
         if (interactorTransform.GetComponent<Player>().balance >= House.instance.price)
         {
             interactorTransform.GetComponent<Player>().balance -= House.instance.price;
+            PlayerUI.instance.UpdatePlayerUI();
             interactorTransform.GetComponent<Player>().homeUnlocked = true;
             gameObject.SetActive(false);
         }
     }
 
-    public string GetInteractText(PlayerInteract playerInteract)
+    public string GetInteractText()
     {
         return "Buy a House, Price: 100$";
     }

@@ -6,13 +6,21 @@ using UnityEngine;
 public class SleepBag : MonoBehaviour, IInteractable
 {
     public string _itemName = "SleepBag";
+    public float canvasGroupFadeDuration = 3f;
+    
     public void Interact(Transform interactorTransform)
     {
-        Debug.Log($"interacted with {transform.name}");
-        DayNightManager.instance.OnPlayerSleep?.Invoke();
+        if (DayNightManager.instance.isDaytime)
+        {
+            if (!PlayerInteractUI.instance.isShowingHint) StartCoroutine(CanNotSleep());
+        }
+        else
+        {
+            DayNightManager.instance.OnPlayerSleep?.Invoke();
+        }
     }
 
-    public string GetInteractText(PlayerInteract playerInteract)
+    public string GetInteractText()
     {
         return $"Press E to Sleep";
     }
@@ -30,5 +38,25 @@ public class SleepBag : MonoBehaviour, IInteractable
     public string GetItemName()
     {
         return _itemName;
+    }
+
+    IEnumerator CanNotSleep()
+    {
+        PlayerInteractUI.instance.isShowingHint = true;
+        PlayerInteractUI.instance.ShowHint("Cant Sleep right now, Still got work to do...");
+        PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha = 1;
+        
+        float startAlpha = PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha;
+        float elaspedTime = 0;
+        while (elaspedTime < canvasGroupFadeDuration)
+        {
+            PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(startAlpha, 0, elaspedTime / canvasGroupFadeDuration);
+            elaspedTime += Time.deltaTime;
+            yield return null;
+        }
+        PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha = 0;
+        PlayerInteractUI.instance.HideHint();
+        PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha = 1;
+        PlayerInteractUI.instance.isShowingHint = false;
     }
 }

@@ -10,9 +10,9 @@ public class MoneyObj : MonoBehaviour, IInteractable
 {
     public float money;
     public bool playerReceived;
-    [FormerlySerializedAs("_absorbing")] public bool absorbing;
+    public bool absorbing;
     private string _itemName = "MoneyObj";
-    [FormerlySerializedAs("_playerTransform")] public Transform playerTransform;
+    public Transform playerTransform;
     public void Interact(Transform interactorTransform)
     {
         if (interactorTransform.GetComponent<Player>() != null) //是玩家
@@ -35,13 +35,14 @@ public class MoneyObj : MonoBehaviour, IInteractable
             if (Vector3.Distance(transform.position, playerTransform.position) < 0.1f)
             {
                 Player.instance.balance += money;
+                PlayerUI.instance.UpdatePlayerUI();
                 absorbing = false;
                 Destroy(gameObject);
             }
         }
     }
 
-    public string GetInteractText(PlayerInteract playerInteract)
+    public string GetInteractText()
     {
         return "Press E to take money";
     }

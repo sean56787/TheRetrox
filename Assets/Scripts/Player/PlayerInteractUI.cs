@@ -8,32 +8,73 @@ using UnityEngine.UI;
 
 public class PlayerInteractUI : MonoBehaviour
 {
-    public PlayerInteract playerInteract;
-    public GameObject interactableTextObj;
-    public TextMeshProUGUI interactTextMeshProUGUI;
+    public static PlayerInteractUI instance;
+    public GameObject interactableUIObj;
+    public TextMeshProUGUI interactableUITest;
+    
+    public GameObject interactableUIHintObj;
+    public TextMeshProUGUI interactableUIHintText;
     public Image crosshair;
+    public bool isShowingHint = false;
+    private void Awake()
+    {
+        if(instance == null) instance = this;
+    }
+
     private void Update()
     {
-        if (playerInteract.GetInteractableObj())
+        
+        if (PlayerInteract.instance.GetInteractableObj())
         {
             crosshair.color = Color.green;
-            Show(playerInteract.GetInteractableObj().GetComponent<IInteractable>());
+            ShowInteract(PlayerInteract.instance.GetInteractableObj().GetComponent<IInteractable>());
         }
         else
         {
             crosshair.color = Color.white;
-            Hide();
+            HideInteract();
+        }
+        
+        if (PlayerInteract.instance.holdingItem != null)
+        {
+            crosshair.color = new Color(255, 107, 0);
+            string hint = GetUnequipHint();
+            ShowHint(hint);
+        }
+        else
+        {
+            crosshair.color = Color.white;
+            if(!isShowingHint) HideHint();
         }
     }
 
-    private void Show(IInteractable interactable)
+    void ShowInteract(IInteractable interactable)
     {
-        interactableTextObj.SetActive(true);
-        interactTextMeshProUGUI.text = interactable.GetInteractText(playerInteract);
+        interactableUIObj.SetActive(true);
+        interactableUITest.text = interactable.GetInteractText();
     }
-
-    private void Hide()
+    
+    void HideInteract()
     {
-        interactableTextObj.SetActive(false);
+        interactableUIObj.SetActive(false);
+        interactableUITest.text = "";
     }
+    
+    public void ShowHint(string hint)
+    {
+        interactableUIHintObj.SetActive(true);
+        interactableUIHintText.text = hint;
+    }
+    
+    public void HideHint()
+    {
+        interactableUIHintObj.SetActive(false);
+        interactableUIHintText.text = "";
+    }
+    
+    string GetUnequipHint()
+    {
+        return $"Press Q to throw {PlayerInteract.instance.holdingItem.GetComponent<IInteractable>().GetItemName()} out";
+    }
+    
 }

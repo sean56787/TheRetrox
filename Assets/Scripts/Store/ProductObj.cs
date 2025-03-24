@@ -66,11 +66,11 @@ public class ProductObj : MonoBehaviour, IInteractable
         TogglePick(interactorTransform);
     }
 
-    public string GetInteractText(PlayerInteract playerInteract)
+    public string GetInteractText()
     {
-        if (playerInteract.isHolding != null && playerInteract.isHolding.transform.GetComponent<IInteractable>().GetItemName() == "Scanner")
+        if (PlayerInteract.instance.holdingItem != null && PlayerInteract.instance.holdingItem.transform.GetComponent<IInteractable>().GetItemName() == "Scanner")
         {
-            return $"{playerInteract.isHolding.transform.GetComponent<IInteractable>().GetUsage()} {productObjName}";
+            return $"{PlayerInteract.instance.holdingItem.transform.GetComponent<IInteractable>().GetUsage()} {productObjName}";
         }
         else
         {
@@ -79,7 +79,7 @@ public class ProductObj : MonoBehaviour, IInteractable
     }
     public string GetUsage()
     {
-        return "Remember to checkout this item before walk out the store!!!";
+        return "Remember to checkout this item before walk out the store ~";
     }
 
     public string GetItemName()
@@ -91,19 +91,19 @@ public class ProductObj : MonoBehaviour, IInteractable
     {
         isHolding = !isHolding;
         
-        if (interactorTransform.GetComponent<PlayerInteract>().isHolding != null)
+        if (interactorTransform.GetComponent<PlayerInteract>().holdingItem != null)
         {
             if(isHolding) isHolding = !isHolding;
         }
         
         if (isHolding)
         {
-            interactorTransform.GetComponent<PlayerInteract>().isHolding = this.gameObject;
+            interactorTransform.GetComponent<PlayerInteract>().holdingItem = this.gameObject;
         }
         
-        if(interactorTransform.GetComponent<PlayerInteract>().isHolding != null && interactorTransform.GetComponent<PlayerInteract>().isHolding == this.gameObject)
+        if(interactorTransform.GetComponent<PlayerInteract>().holdingItem != null && interactorTransform.GetComponent<PlayerInteract>().holdingItem == this.gameObject)
         {
-            if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().isHolding = null;
+            if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
     }
     public void Use(Transform interactorTransform)

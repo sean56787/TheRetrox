@@ -33,29 +33,28 @@ public class NPCAnimator : MonoBehaviour
         _animator.SetTrigger("grab");
     }
     
-    public void NPC_PutdownAnimation()
+    public void NPC_PutdownNormalAnimation()
     {
         ResetAnimation();
-        _animator.SetBool("putdown", true);
+        _animator.SetTrigger("putdownNormal");
     }
     
+    public void NPC_PutdownSlothAnimation()
+    {
+        ResetAnimation();
+        _animator.SetBool("putdownSloth", true);
+    }
     public void NPC_ThrowAnimation()
     {
         ResetAnimation();
         _animator.SetTrigger("throw");
     }
     
-    public void NPC_PayAnimation()
-    {
-        ResetAnimation();
-        _animator.SetTrigger("pay");
-    }
-    
     public void ResetAnimation()
     {
         _animator.SetBool("idle", true);
         _animator.SetBool("walk", false);
-        _animator.SetBool("putdown", false);
+        _animator.SetBool("putdownSloth", false);
     }
 
     // public float GetAnimationLength(string animationTag)

@@ -26,19 +26,19 @@ public class Scanner : MonoBehaviour, IInteractable
     {
         isHolding = !isHolding;
         
-        if (interactorTransform.GetComponent<PlayerInteract>().isHolding != null)
+        if (interactorTransform.GetComponent<PlayerInteract>().holdingItem != null)
         {
             if(isHolding) isHolding = !isHolding;
         }
         
         if (isHolding)
         {
-            interactorTransform.GetComponent<PlayerInteract>().isHolding = this.gameObject;
+            interactorTransform.GetComponent<PlayerInteract>().holdingItem = this.gameObject;
         }
         
-        if(interactorTransform.GetComponent<PlayerInteract>().isHolding != null && interactorTransform.GetComponent<PlayerInteract>().isHolding == this.gameObject)
+        if(interactorTransform.GetComponent<PlayerInteract>().holdingItem != null && interactorTransform.GetComponent<PlayerInteract>().holdingItem == this.gameObject)
         {
-            if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().isHolding = null;
+            if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
     }
 
@@ -51,7 +51,7 @@ public class Scanner : MonoBehaviour, IInteractable
     {
         return _itemName;
     }
-    public string GetInteractText(PlayerInteract playerInteract)
+    public string GetInteractText()
     {
         return $"Press E to Pick up {transform.name}";
     }
@@ -91,7 +91,7 @@ public class Scanner : MonoBehaviour, IInteractable
     
     void Holding()
     {
-        transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.55f, -0.45f, 0.8f));
+        transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.55f, -0.55f, 0.8f));
         transform.rotation = Quaternion.LookRotation(playerCameraTransform.forward, Vector3.up);
         transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
         GetComponent<Rigidbody>().isKinematic = true;

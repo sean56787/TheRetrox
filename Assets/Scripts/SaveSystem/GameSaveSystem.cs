@@ -82,6 +82,7 @@ public class GameSaveSystem : MonoBehaviour
             GameData data = JsonUtility.FromJson<GameData>(jsData);
             
             Player.instance.balance = data.playerMoney;
+            PlayerUI.instance.UpdatePlayerUI();
             Player.instance.transform.position = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
             homeBlockade.SetActive(!data.isHomeUnlocked);
             DayNightManager.instance.currentTime = data.gameCurrentTime;
@@ -110,7 +111,7 @@ public class GameSaveSystem : MonoBehaviour
     public void OpenSaveLoadMenu(int mode)
     {
         if(!IsGameStateManagerAvailable()) Debug.LogError("NO GSM");
-
+        PlayerUI.instance.DisablePlayerUI();
         if (GameStateManager.instance.inGamePaused)
         {
             Debug.Log("Open in EscMenu");
@@ -147,7 +148,7 @@ public class GameSaveSystem : MonoBehaviour
     public void CloseSaveLoadMenu()
     {
         if(!IsGameStateManagerAvailable()) Debug.LogError("NO GSM");
-        
+        PlayerUI.instance.EnablePlayerUI();
         GameStateManager.instance.SetIsSaveLoadUIOpeningState(false);
         GameStateManager.instance.UpdateCursorState();
         saveloadUI.SetActive(false);

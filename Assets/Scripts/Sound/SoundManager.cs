@@ -32,6 +32,16 @@ public class SoundManager : MonoBehaviour
     public AudioClip Byebye_Clip;
     [Header("itemPop sound")]
     public AudioClip ItemPop_Clip;
+    [Header("snore sound")]
+    public AudioClip Snore_Clip;
+    [Header("hurry up & wasting my time sound")]
+    public AudioClip HurryUp_Clip;
+    public AudioClip Waste_Clip;
+    [Header("Player Throw")]
+    public AudioClip PlayerThrow_Clip;
+    
+    
+    
     
     [Header("Main menu button refs")]
     public Button MainMenu_StartNewGame_Button;
@@ -64,7 +74,7 @@ public class SoundManager : MonoBehaviour
         PlayBGM();
     }
 
-    AudioSource GetAvailableAudioSource()
+    public AudioSource GetAvailableAudioSource()
     {
         foreach (var AS in audioSourcePool)
         {
@@ -112,19 +122,36 @@ public class SoundManager : MonoBehaviour
         AudioSource validAudioSource = GetAvailableAudioSource();
         if(validAudioSource!= null) validAudioSource.PlayOneShot(Angry_Clip, 0.5f);
     }
-    
-    public void PlayClip_Byebye()
-    {
-        AudioSource validAudioSource = GetAvailableAudioSource();
-        if(validAudioSource!= null) validAudioSource.PlayOneShot(Byebye_Clip, 0.5f);
-    }
-    
+
     public void PlayClip_ItemPop()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
         if(validAudioSource!= null) validAudioSource.PlayOneShot(ItemPop_Clip, 0.5f);
     }
     
+    public void PlayClip_Snore(AudioSource validAudioSource)
+    {
+        // AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Snore_Clip, 0.5f);
+    }
+    
+    public void PlayClip_HurryUp()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(HurryUp_Clip, 0.5f);
+    }
+    
+    public void PlayClip_WasteMyTime()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Waste_Clip, 0.5f);
+    }
+    
+    public void PlayClip_PlayerThrow()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(PlayerThrow_Clip, 1f);
+    }
     void SetUp_MainMenuButtonOnClick()
     {
         MainMenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick);

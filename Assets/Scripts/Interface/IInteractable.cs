@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IInteractable
 {
     void Interact(Transform interactorTransform);
-    string GetInteractText(PlayerInteract playerInteract);
+    string GetInteractText();
     string GetUsage();
     void Use(Transform interactorTransform);
     string GetItemName();

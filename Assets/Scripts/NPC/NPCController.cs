@@ -38,7 +38,7 @@ public class NPCController : MonoBehaviour
     private bool _isPaid;
     private bool _receivedChanges;
     private bool _isPlayingTriggerAnimation;
-    
+    private bool _isRaging;
     public enum NPCState
     {
         IsWanderingAround,
@@ -240,8 +240,12 @@ public class NPCController : MonoBehaviour
     private IEnumerator TakeoutProduct()
     {
         takingOutProductFlag = true;
-        if(_npcCustomer.npcPersonality.personality != NPCPersonality.Personality.InHurry) npcAnimator.NPC_PutdownAnimation();
-        yield return new WaitForSeconds(1f);
+        AudioSource tempAS = SoundManager.instance.GetAvailableAudioSource();
+        if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
+        {
+            npcAnimator.NPC_PutdownSlothAnimation();
+        }
+        yield return new WaitForSeconds(0.5f);
         while (_currentProductQueue.Count > 0)
         {
             Product product = _currentProductQueue.Dequeue();
@@ -255,14 +259,23 @@ public class NPCController : MonoBehaviour
                     npcAnimator.NPC_ThrowAnimation();
                     yield return new WaitForSeconds(0.65f);
                     unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, throwFrom);
-                    
-                    Rigidbody prd = unCheckedProduct.GetComponent<Rigidbody>();
+                    Rigidbody rb = unCheckedProduct.GetComponent<Rigidbody>();
                     Vector3 direction = (productAreaToThrow.position - transform.position).normalized;
-                    prd.AddForce(direction * _npcCustomer.throwStrength, ForceMode.Impulse);
+                    rb.AddForce(direction * _npcCustomer.throwStrength, ForceMode.Impulse);
                 }
                 else
                 {
-                    Debug.Log("normal");
+                    if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
+                    {
+                        Debug.Log("sloth");
+                        if(!tempAS.isPlaying) SoundManager.instance.PlayClip_Snore(tempAS);
+                    }
+                    else
+                    {
+                        Debug.Log("normal");
+                        npcAnimator.NPC_PutdownNormalAnimation();
+                        yield return new WaitForSeconds(0.65f);
+                    }
                     SoundManager.instance.PlayClip_ItemPop();
                     unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, productInitArea);
                 }
@@ -271,6 +284,7 @@ public class NPCController : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             } 
         }
+        if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth) CancelInvoke(nameof(SoundManager.instance.PlayClip_Snore));
         npcAnimator.ResetAnimation();
         Debug.Log("WaitingForCheckout");
         ChangeState(NPCState.WaitingForCheckout);
@@ -278,7 +292,6 @@ public class NPCController : MonoBehaviour
     
     public void DestroyCheckedProducts() // TODO:商品回到顧客身上
     {
-        Debug.Log("Destroy all products from :" + transform.name);
         foreach (var p in unCheckedProductsList)
         {
             Destroy(p);
@@ -289,6 +302,7 @@ public class NPCController : MonoBehaviour
     {
         while (!IsAllCheckedOut())
         {
+            if (!_isRaging && _npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) StartCoroutine(Raging());
             yield return null;
         }
         ChangeState(NPCState.Pay);
@@ -322,7 +336,7 @@ public class NPCController : MonoBehaviour
         }
         else
         {
-            npcAnimator.NPC_PayAnimation();
+            npcAnimator.NPC_PutdownNormalAnimation();
             SoundManager.instance.PlayClip_ItemPop();
             moneyObj = Instantiate(_npcCustomer.moneyPrefab, moneyInitArea.position, Quaternion.LookRotation(transform.up));
         }
@@ -334,10 +348,10 @@ public class NPCController : MonoBehaviour
     void WaitingForReceiveChange()
     {
         Debug.Log("WaitingForReceiveChange");
+        
         if(moneyObj.GetComponent<MoneyObj>().playerReceived)
         {
-            if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) SoundManager.instance.PlayClip_Byebye();
-            Debug.Log("player leave");
+            if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) SoundManager.instance.PlayClip_WasteMyTime();
             CounterQueueManager.instance.RemoveFirst();
             CounterQueueManager.instance.UpdateQueue();
             ChangeState(NPCState.ExitStore);
@@ -368,4 +382,13 @@ public class NPCController : MonoBehaviour
     {
         currentNpcState = newNpcState;
     }
+
+    IEnumerator Raging()
+    {
+        _isRaging = true;
+        SoundManager.instance.PlayClip_HurryUp();
+        int randomRageTime = Random.Range(0, 5);
+        yield return new WaitForSeconds(randomRageTime);
+        _isRaging = false;
+    } 
 }

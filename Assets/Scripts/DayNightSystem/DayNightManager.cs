@@ -23,13 +23,15 @@ public class DayNightManager : MonoBehaviour
     public GameObject timeUIObject;
     public TextMeshProUGUI dayCycleTextMeshProUGUI;
     public Action OnPlayerSleep;
+    public Image currentImage;
+    public Sprite moon;
+    public Sprite sun;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
-        
     }
 
     private void Start()
@@ -52,15 +54,18 @@ public class DayNightManager : MonoBehaviour
         {
             if (isDaytime)
             {
+                currentImage.sprite = sun;
                 currentTime += Time.deltaTime;
                 UpdateTimeUI();
             }
-            
+            else
+            {
+                currentImage.sprite = moon;
+            }
             if (currentTime >= dayDuration)
             {
-                SwitchToNight();
+                if(isDaytime) SwitchToNight();
             }
-            
             yield return null;
         }
     }
@@ -95,12 +100,12 @@ public class DayNightManager : MonoBehaviour
             yield return StartCoroutine(Fade(0, 1, fadeDuration));
             yield return new WaitForSeconds(2f);
             StartCoroutine(ScreenFadeToNormal());
+            SwitchToDay();
         }
     
         IEnumerator ScreenFadeToNormal()
         {
             yield return StartCoroutine(Fade(1, 0, fadeDuration));
-            SwitchToDay();
         }
 
         IEnumerator Fade(float startAlpha, float endAlpha, float duration)
@@ -112,6 +117,7 @@ public class DayNightManager : MonoBehaviour
                 elapsed += Time.deltaTime;
                 color.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
                 fadePanel.color = color;
+                
                 yield return null;
             }
 

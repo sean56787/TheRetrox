@@ -12,21 +12,10 @@ public class EscMenu : MonoBehaviour
     {
         if(instance == null) instance = this;
     }
-
-    // private void Start()
-    // {
-    //     StartCoroutine(WaitForGameStateManager());
-    // }
-    //
-    // IEnumerator WaitForGameStateManager()
-    // {
-    //     yield return new WaitUntil(()=> GameStateManager.instance != null);
-    //     CloseEscMenu();
-    // }
     
     private void Update()
     {
-        if (!GameStateManager.instance.inMainMenu) CheckEscPress();
+        if (GameStateManager.instance.isInGame) CheckEscPress();
     }
 
     void CheckEscPress()
@@ -57,12 +46,14 @@ public class EscMenu : MonoBehaviour
 
     public void OpenEscMenu()
     {
+        PlayerUI.instance.DisablePlayerUI();
         GameStateManager.instance.SetGamePauseState(true);
         GameStateManager.instance.UpdateCursorState();
         pauseUI.SetActive(true);
     }
     public void CloseEscMenu()
     {
+        PlayerUI.instance.EnablePlayerUI();
         GameStateManager.instance.SetGamePauseState(false);
         GameStateManager.instance.UpdateCursorState();
         pauseUI.SetActive(false);
@@ -70,7 +61,6 @@ public class EscMenu : MonoBehaviour
     public void BackToMainMenu()
     {
         Resume();
-        GameStateManager.instance.SetIsInGameState(false);
         MainMenu.instance.ActivateMainMenuselectButtonsUI();
         MainMenu.instance.OpenMainMenu();
     }

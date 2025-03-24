@@ -7,9 +7,9 @@ using UnityEngine.Serialization;
 
 public class MainMenu : MonoBehaviour
 {
+    
     public static MainMenu instance;
     public GameObject mainMenu;
-    public GameObject playerCamera;
     public GameObject selectButtonsUI;
     private void Awake()
     {
@@ -24,20 +24,26 @@ public class MainMenu : MonoBehaviour
     IEnumerator WaitForGameStateManager()
     {
         yield return new WaitUntil(()=> GameStateManager.instance != null);
+        PlayerUI.instance.DisablePlayerUI();
+        ActivateMainMenuselectButtonsUI();
         OpenMainMenu();
     }
 
     public void OpenMainMenu()
     {
+        GameStateManager.instance.SetIsInGameState(false);
         GameStateManager.instance.SetMainMenuState(true);
         GameStateManager.instance.UpdateCursorState();
+        PlayerUI.instance.DisablePlayerUI();
         mainMenu.SetActive(true);
     }
     
     public void CloseMainMenu()
     {
+        GameStateManager.instance.SetIsInGameState(true);
         GameStateManager.instance.SetMainMenuState(false);
         GameStateManager.instance.UpdateCursorState();
+        PlayerUI.instance.EnablePlayerUI();
         mainMenu.SetActive(false);
     }
     
@@ -52,7 +58,6 @@ public class MainMenu : MonoBehaviour
     }
     public void StartNewGame()
     {
-        Debug.Log("StartNewGame");
         // turn off main menu
         CloseMainMenu();
         // Reset All vars
@@ -65,4 +70,6 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("ExitGame");
     }
+    
+    
 }

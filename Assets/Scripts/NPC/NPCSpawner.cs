@@ -39,7 +39,7 @@ public class NPCSpawner : MonoBehaviour
             isInSpawnDelay = true;
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
-            //if(GameStateManager.instance.isInGame)SpawnNPC(); // 遊戲進行才會生成
+            // if(GameStateManager.instance.isInGame) SpawnNPC(); // 遊戲進行才會生成
             SpawnNPC();
             isInSpawnDelay = false;
         }
@@ -79,7 +79,6 @@ public class NPCSpawner : MonoBehaviour
     {
         foreach (var npcToDelete in inGameNPCList.ToList())
         {
-            Debug.Log("npcToDelete: "+ npcToDelete.name);
             npcToDelete.GetComponent<NPCController>().DestroyCheckedProducts(); // delete product(if exist)
             npcToDelete.GetComponent<WaypointNavigator>().StopNavAgent(); // stop agent
             RemoveNPCFromInGameNPCList(npcToDelete);
