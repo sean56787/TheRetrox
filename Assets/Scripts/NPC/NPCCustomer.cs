@@ -41,7 +41,7 @@ public class NPCCustomer : MonoBehaviour
                 _agent.speed = 2f;
                 break;
             case NPCPersonality.Personality.InHurry: 
-                _agent.speed = 3.5f;
+                _agent.speed = 5f;
                 break;
             case NPCPersonality.Personality.Sloth:
                 _agent.speed = 1.5f;

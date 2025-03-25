@@ -29,7 +29,7 @@ public class NPCController : MonoBehaviour
     public bool takingOutProductFlag;
     
     private Transform _targetCounterQueueTransform;
-    private NPCCustomer _npcCustomer;
+    public NPCCustomer npcCustomer;
     private Product _targetProduct;
     private ProductCabinet _targetCabinet;
     private Queue<Product> _targetProductQueue = new();
@@ -63,7 +63,7 @@ public class NPCController : MonoBehaviour
     private void Awake()
     {
         _npcShoppingList = GetComponent<NPCShoppingList>();
-        _npcCustomer = GetComponent<NPCCustomer>();
+        npcCustomer = GetComponent<NPCCustomer>();
         npcAnimator = GetComponent<NPCAnimator>();
         waypointNavigator = GetComponent<WaypointNavigator>();
         
@@ -135,7 +135,8 @@ public class NPCController : MonoBehaviour
                    (waypointNavigator.npcNavAgent.pathPending || 
                     waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance))
             {
-                npcAnimator.NPC_WalkAnimation();
+                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation();
+                else npcAnimator.NPC_WalkAnimation();
                 yield return null;
             }
             ChangeState(NPCState.SetShoppingRoute);
@@ -184,7 +185,8 @@ public class NPCController : MonoBehaviour
             (waypointNavigator.npcNavAgent.pathPending || 
              waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance))
         {
-            npcAnimator.NPC_WalkAnimation();
+            if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation();
+                else npcAnimator.NPC_WalkAnimation();
             yield return null; //等下一偵
         }
         ChangeState(NPCState.TakeProduct);
@@ -223,7 +225,8 @@ public class NPCController : MonoBehaviour
         while (!waypointNavigator.isAgentStopped &&
                (waypointNavigator.npcNavAgent.pathPending || waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance))
         {
-            npcAnimator.NPC_WalkAnimation();
+            if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation();
+                else npcAnimator.NPC_WalkAnimation();
             yield return null; //等下一偵
         }
         ChangeState(NPCState.CheckQueuePosition);
@@ -241,7 +244,7 @@ public class NPCController : MonoBehaviour
     {
         takingOutProductFlag = true;
         AudioSource tempAS = SoundManager.instance.GetAvailableAudioSource();
-        if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
+        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
         {
             npcAnimator.NPC_PutdownSlothAnimation();
         }
@@ -252,7 +255,7 @@ public class NPCController : MonoBehaviour
             for (int i = 0; i < product.quantity; i++)
             {
                 GameObject unCheckedProduct;
-                if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
+                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
                 {
                     Debug.Log("Throw");
                     SoundManager.instance.PlayClip_Angry();
@@ -261,13 +264,14 @@ public class NPCController : MonoBehaviour
                     unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, throwFrom);
                     Rigidbody rb = unCheckedProduct.GetComponent<Rigidbody>();
                     Vector3 direction = (productAreaToThrow.position - transform.position).normalized;
-                    rb.AddForce(direction * _npcCustomer.throwStrength, ForceMode.Impulse);
+                    rb.AddForce(direction * npcCustomer.throwStrength, ForceMode.Impulse);
                 }
                 else
                 {
-                    if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
+                    if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
                     {
                         Debug.Log("sloth");
+                        yield return new WaitForSeconds(1.5f);
                         if(!tempAS.isPlaying) SoundManager.instance.PlayClip_Snore(tempAS);
                     }
                     else
@@ -284,7 +288,7 @@ public class NPCController : MonoBehaviour
                 yield return new WaitForSeconds(1f);
             } 
         }
-        if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth) CancelInvoke(nameof(SoundManager.instance.PlayClip_Snore));
+        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth) CancelInvoke(nameof(SoundManager.instance.PlayClip_Snore));
         npcAnimator.ResetAnimation();
         Debug.Log("WaitingForCheckout");
         ChangeState(NPCState.WaitingForCheckout);
@@ -302,7 +306,7 @@ public class NPCController : MonoBehaviour
     {
         while (!IsAllCheckedOut())
         {
-            if (!_isRaging && _npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) StartCoroutine(Raging());
+            if (!_isRaging && npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) StartCoroutine(Raging());
             yield return null;
         }
         ChangeState(NPCState.Pay);
@@ -324,21 +328,21 @@ public class NPCController : MonoBehaviour
     IEnumerator Pay()
     {
         _isPaid = true;
-        if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
+        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
         {
             SoundManager.instance.PlayClip_Angry();
             npcAnimator.NPC_ThrowAnimation();
             yield return new WaitForSeconds(0.3f);
-            moneyObj = Instantiate(_npcCustomer.moneyPrefab, throwFrom.position, Quaternion.LookRotation(transform.up));
+            moneyObj = Instantiate(npcCustomer.moneyPrefab, throwFrom.position, Quaternion.LookRotation(transform.up));
             Rigidbody rb = moneyObj.GetComponent<Rigidbody>();
-            Vector3 throwDirection = (moneyAreaToThrow.position - _npcCustomer.throwPos.position).normalized;
-            rb.AddForce(throwDirection * _npcCustomer.throwStrength, ForceMode.Impulse);
+            Vector3 throwDirection = (moneyAreaToThrow.position - npcCustomer.throwPos.position).normalized;
+            rb.AddForce(throwDirection * npcCustomer.throwStrength, ForceMode.Impulse);
         }
         else
         {
             npcAnimator.NPC_PutdownNormalAnimation();
             SoundManager.instance.PlayClip_ItemPop();
-            moneyObj = Instantiate(_npcCustomer.moneyPrefab, moneyInitArea.position, Quaternion.LookRotation(transform.up));
+            moneyObj = Instantiate(npcCustomer.moneyPrefab, moneyInitArea.position, Quaternion.LookRotation(transform.up));
         }
         moneyObj.GetComponent<MoneyObj>().money = _npcShoppingList.GetCustomerPaid();
         moneyObj.GetComponent<MoneyObj>().playerReceived = false;
@@ -351,7 +355,7 @@ public class NPCController : MonoBehaviour
         
         if(moneyObj.GetComponent<MoneyObj>().playerReceived)
         {
-            if (_npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) SoundManager.instance.PlayClip_WasteMyTime();
+            if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) SoundManager.instance.PlayClip_WasteMyTime();
             CounterQueueManager.instance.RemoveFirst();
             CounterQueueManager.instance.UpdateQueue();
             ChangeState(NPCState.ExitStore);
@@ -371,7 +375,8 @@ public class NPCController : MonoBehaviour
                    (waypointNavigator.npcNavAgent.pathPending ||
                     waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance))
             {
-                npcAnimator.NPC_WalkAnimation();
+                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation();
+                else npcAnimator.NPC_WalkAnimation();
                 yield return null; //等下一偵
             }
             waypointNavigator.isAlreadyBought = true;
@@ -387,7 +392,7 @@ public class NPCController : MonoBehaviour
     {
         _isRaging = true;
         SoundManager.instance.PlayClip_HurryUp();
-        int randomRageTime = Random.Range(0, 5);
+        int randomRageTime = Random.Range(5, 10);
         yield return new WaitForSeconds(randomRageTime);
         _isRaging = false;
     } 

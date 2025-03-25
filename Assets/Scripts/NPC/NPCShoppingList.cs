@@ -115,13 +115,13 @@ public class NPCShoppingList : MonoBehaviour
             case NPCPersonality.Personality.Drinker:
             case NPCPersonality.Personality.Fruiter:
             case NPCPersonality.Personality.Snacker:
-                return Random.Range(3, 5); // 3~4
+                return Random.Range(3, 5);
             case NPCPersonality.Personality.Shopaholic:
-                return Random.Range(5, 7); // 5~6
+                return Random.Range(10, 15);
             case NPCPersonality.Personality.Thrifty:
-                return Random.Range(1, 3);// 1~2
+                return Random.Range(1, 3);
             case NPCPersonality.Personality.InHurry: 
-                return 1;
+                return Random.Range(7, 10);
             case NPCPersonality.Personality.Sloth:
                 return 4;
             default: return 1;

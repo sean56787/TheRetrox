@@ -39,7 +39,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip Waste_Clip;
     [Header("Player Throw")]
     public AudioClip PlayerThrow_Clip;
-    
+    [Header("Door")]
+    public AudioClip DoorOpen_Clip;
+    public AudioClip DoorClose_Clip;
     
     
     
@@ -102,7 +104,7 @@ public class SoundManager : MonoBehaviour
     void PlayClip_ButtonClick()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
-        if(validAudioSource!= null) validAudioSource.PlayOneShot(ButtonClick_Clip, 0.5f);
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(ButtonClick_Clip, 0.3f);
     }
     
     public void PlayClip_Scan()
@@ -132,7 +134,7 @@ public class SoundManager : MonoBehaviour
     public void PlayClip_Snore(AudioSource validAudioSource)
     {
         // AudioSource validAudioSource = GetAvailableAudioSource();
-        if(validAudioSource!= null) validAudioSource.PlayOneShot(Snore_Clip, 0.5f);
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Snore_Clip, 0.3f);
     }
     
     public void PlayClip_HurryUp()
@@ -151,6 +153,18 @@ public class SoundManager : MonoBehaviour
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
         if(validAudioSource!= null) validAudioSource.PlayOneShot(PlayerThrow_Clip, 1f);
+    }
+    
+    public void PlayClip_DoorOpen()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(DoorOpen_Clip, 0.3f);
+    }
+    
+    public void PlayClip_DoorClose()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(DoorClose_Clip, 0.3f);
     }
     void SetUp_MainMenuButtonOnClick()
     {

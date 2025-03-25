@@ -27,6 +27,12 @@ public class NPCAnimator : MonoBehaviour
         _animator.SetBool("walk", true);
     }
     
+    public void NPC_RunAnimation()
+    {
+        ResetAnimation();
+        _animator.SetBool("run", true);
+    }
+    
     public void NPC_GrabAnimation()
     {
         ResetAnimation();
@@ -54,6 +60,7 @@ public class NPCAnimator : MonoBehaviour
     {
         _animator.SetBool("idle", true);
         _animator.SetBool("walk", false);
+        _animator.SetBool("run", false);
         _animator.SetBool("putdownSloth", false);
     }
 

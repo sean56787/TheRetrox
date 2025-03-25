@@ -54,7 +54,8 @@ public class WaypointNavigator : MonoBehaviour
             CheckIsWalking();
             if (isWalking)
             {
-                npcAnimator.NPC_WalkAnimation();
+                if (npcController.npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation();
+                else npcAnimator.NPC_WalkAnimation();
             }
             else if (!isWalking)
             {

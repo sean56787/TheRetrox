@@ -25,7 +25,7 @@ public class GameSaveSystem : MonoBehaviour
     private void Start()
     {
         saveloadUI.SetActive(false);
-        _savePath = "Assets/GameSaves/save";
+        CheckSaveDir();
         UpdateSaveSlots();
     }
 
@@ -157,5 +157,18 @@ public class GameSaveSystem : MonoBehaviour
     bool IsGameStateManagerAvailable()
     {
         return !(GameStateManager.instance == null);
+    }
+
+    void CheckSaveDir()
+    {
+        _savePath = Path.Combine(Application.persistentDataPath, "GameSave");
+        if (!Directory.Exists(_savePath))
+        {
+            Directory.CreateDirectory(_savePath);
+        }
+        else
+        {
+            Debug.Log("Directory already exists");
+        }
     }
 }
