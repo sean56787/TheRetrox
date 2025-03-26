@@ -9,6 +9,7 @@ public class NPCAnimator : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        Debug.Log(_animator.avatar.name);
         if (_animator == null)
         {
             Debug.LogError("no animator found");

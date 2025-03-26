@@ -51,7 +51,7 @@ public class GameSaveSystem : MonoBehaviour
     
     public void SaveGame(int slot)
     {
-        string filePath = $"{_savePath}_{slot}.json";
+        string filePath = $"{_savePath}/save_0{slot}.json";
         Debug.Log($"going to write {filePath}");
         GameData data = new GameData(Player.instance);
         string jsData = JsonUtility.ToJson(data, true);
@@ -62,7 +62,7 @@ public class GameSaveSystem : MonoBehaviour
     public void LoadGame(int slot)
     {
         if(!IsGameStateManagerAvailable()) Debug.LogError("NO GSM");
-        string filePath = $"{_savePath}_{slot}.json";
+        string filePath = $"{_savePath}/save_0{slot}.json";
         if (File.Exists(filePath))
         {
             if (GameStateManager.instance.inMainMenu) // if從主頁面加載
@@ -93,7 +93,7 @@ public class GameSaveSystem : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            string filePath = $"{_savePath}_{i}.json";
+            string filePath = $"{_savePath}/save_0{i}.json";
             if (File.Exists(filePath))
             {
                 GameData data = JsonUtility.FromJson<GameData>(File.ReadAllText(filePath));
@@ -164,10 +164,12 @@ public class GameSaveSystem : MonoBehaviour
         _savePath = Path.Combine(Application.persistentDataPath, "GameSave");
         if (!Directory.Exists(_savePath))
         {
+            Debug.Log($"{_savePath}");
             Directory.CreateDirectory(_savePath);
         }
         else
         {
+            Debug.Log($"{_savePath}");
             Debug.Log("Directory already exists");
         }
     }

@@ -284,7 +284,7 @@ public class NPCController : MonoBehaviour
                     unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, productInitArea);
                 }
                 unCheckedProductsList.Add(unCheckedProduct);
-                unCheckedProduct.transform.SetParent(unCheckedProducts);
+                // unCheckedProduct.transform.SetParent(unCheckedProducts);
                 yield return new WaitForSeconds(1f);
             } 
         }
@@ -294,7 +294,7 @@ public class NPCController : MonoBehaviour
         ChangeState(NPCState.WaitingForCheckout);
     }
     
-    public void DestroyCheckedProducts() // TODO:商品回到顧客身上
+    public void DestroyCheckedProducts()
     {
         foreach (var p in unCheckedProductsList)
         {
@@ -319,7 +319,7 @@ public class NPCController : MonoBehaviour
                 {
                     return false;
                 }
-                p.transform.SetParent(checkedProducts);
+                // p.transform.SetParent(checkedProducts);
             }
             return true;
         }
