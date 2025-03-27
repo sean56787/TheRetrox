@@ -53,6 +53,7 @@ public class PlayerInteract : MonoBehaviour
         }
         return null;
     }
+    
     void ThrowHolingItem()
     {
         GameObject lastHoldingItem = holdingItem; //先存起來

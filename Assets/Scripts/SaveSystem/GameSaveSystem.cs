@@ -36,13 +36,11 @@ public class GameSaveSystem : MonoBehaviour
             CloseSaveLoadMenu();
             if (GameStateManager.instance.inMainMenu)
             {
-                Debug.Log("return to MainMenu");
                 MainMenu.instance.ActivateMainMenuselectButtonsUI();
                 MainMenu.instance.OpenMainMenu();
             }
             else if (GameStateManager.instance.inGamePaused)
             {
-                Debug.Log("return to EscMenu");
                 EscMenu.instance.OpenEscMenu();
                 EscMenu.instance.Pause();
             }
@@ -67,7 +65,6 @@ public class GameSaveSystem : MonoBehaviour
         {
             if (GameStateManager.instance.inMainMenu) // if從主頁面加載
             {
-                Debug.Log("Loaded from MainMenu");
                 MainMenu.instance.CloseMainMenu();
             }
             //GameStateManager.instance.ResetGame();
@@ -114,12 +111,10 @@ public class GameSaveSystem : MonoBehaviour
         PlayerUI.instance.DisablePlayerUI();
         if (GameStateManager.instance.inGamePaused)
         {
-            Debug.Log("Open in EscMenu");
             EscMenu.instance.CloseEscMenu();
         }
         else if (GameStateManager.instance.inMainMenu)
         {
-            Debug.Log("Open in MainMenu");
             MainMenu.instance.DeActivateMainMenuselectButtonsUI();
         }
         else
@@ -164,13 +159,7 @@ public class GameSaveSystem : MonoBehaviour
         _savePath = Path.Combine(Application.persistentDataPath, "GameSave");
         if (!Directory.Exists(_savePath))
         {
-            Debug.Log($"{_savePath}");
             Directory.CreateDirectory(_savePath);
-        }
-        else
-        {
-            Debug.Log($"{_savePath}");
-            Debug.Log("Directory already exists");
         }
     }
 }

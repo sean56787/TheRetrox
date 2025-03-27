@@ -17,7 +17,6 @@ public class Door : MonoBehaviour, IInteractable
     private string _itemName = "Door";
     public void Interact(Transform interactorTransform)
     {
-        Debug.Log("Interact door");
         ToggleOpen();
     }
 
@@ -33,30 +32,37 @@ public class Door : MonoBehaviour, IInteractable
     IEnumerator SwitchDoorState()
     {
         _isOpeningDoor = true;
-        if (_isOpen)
+        if (_isOpen)// 要打開
         {
             SoundManager.instance.PlayClip_DoorClose();
             if (currentAngle < openAngle)
             {
                 while (currentAngle < openAngle)
-                {
+                {   
                     float angleToAdd = openSpeed * Time.deltaTime;
+                    if (currentAngle + angleToAdd > openAngle)
+                    {
+                        angleToAdd = openAngle - currentAngle;
+                    }
                     transform.RotateAround(doorPivot.position, Vector3.up, angleToAdd);
                     currentAngle += angleToAdd;
                     yield return null;
                 }
-                currentAngle = openAngle;
             }
             else
             {
-                while (currentAngle > openAngle)
+                while (currentAngle > openAngle) // openAngle 是負值
                 {
+                    
                     float angleToAdd = openSpeed * Time.deltaTime;
+                    if (currentAngle - angleToAdd < openAngle)
+                    {
+                        angleToAdd = currentAngle - openAngle;
+                    }
                     transform.RotateAround(doorPivot.position, Vector3.up, -angleToAdd);
                     currentAngle -= angleToAdd;
                     yield return null;
                 }
-                currentAngle = openAngle;
             }
             
         }
@@ -68,22 +74,28 @@ public class Door : MonoBehaviour, IInteractable
                 while (currentAngle > 0)
                 {
                     float angleToAdd = openSpeed * Time.deltaTime;
+                    if (currentAngle - angleToAdd < 0)
+                    {
+                        angleToAdd = currentAngle;
+                    }
                     transform.RotateAround(doorPivot.position, Vector3.up, -angleToAdd);
                     currentAngle -= angleToAdd;
                     yield return null;
                 }
-                currentAngle = 0;
             }
             else
             {
                 while (currentAngle < 0)
                 {
                     float angleToAdd = openSpeed * Time.deltaTime;
+                    if (currentAngle + angleToAdd > 0)
+                    {
+                        angleToAdd = Mathf.Abs(currentAngle);
+                    }
                     transform.RotateAround(doorPivot.position, Vector3.up, angleToAdd);
                     currentAngle += angleToAdd;
                     yield return null;
                 }
-                currentAngle = 0;
             }
             
         }

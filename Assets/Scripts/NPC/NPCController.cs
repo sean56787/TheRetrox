@@ -257,7 +257,6 @@ public class NPCController : MonoBehaviour
                 GameObject unCheckedProduct;
                 if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
                 {
-                    Debug.Log("Throw");
                     SoundManager.instance.PlayClip_Angry();
                     npcAnimator.NPC_ThrowAnimation();
                     yield return new WaitForSeconds(0.65f);
@@ -270,13 +269,11 @@ public class NPCController : MonoBehaviour
                 {
                     if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
                     {
-                        Debug.Log("sloth");
                         yield return new WaitForSeconds(1.5f);
                         if(!tempAS.isPlaying) SoundManager.instance.PlayClip_Snore(tempAS);
                     }
                     else
                     {
-                        Debug.Log("normal");
                         npcAnimator.NPC_PutdownNormalAnimation();
                         yield return new WaitForSeconds(0.65f);
                     }

@@ -20,7 +20,7 @@ public class HomeBlockade : MonoBehaviour, IInteractable
 
     public string GetInteractText()
     {
-        return "Buy a House, Price: 100$";
+        return "Press E To Buy a House, Price: 100$";
     }
 
     public string GetUsage()

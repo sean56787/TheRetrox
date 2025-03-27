@@ -74,7 +74,7 @@ public class Scanner : MonoBehaviour, IInteractable
     }
     private void Update()
     {
-        Debug.DrawRay(transform.position, transform.up * 2, Color.green);
+        //Debug.DrawRay(transform.position, transform.up * 2, Color.green);
     }
 
     private void LateUpdate()
