@@ -1,30 +1,39 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-public class Scanner : MonoBehaviour, IInteractable
+public class HintBoard : MonoBehaviour, IInteractable
 {
     public Transform playerCameraTransform;
     public bool isHolding = false;
-    private string _itemName = "Scanner";
-
+    public List<GameObject> hintImgList = new List<GameObject>();
+    public GameObject hintCanvas;
+    public GameObject clickCanvas;
+    public int currentImgIndex;
+    private string _itemName = "HintBoard";
+    
     private void Start()
     {
+        clickCanvas.SetActive(isHolding);
         playerCameraTransform = GameObject.FindWithTag("PlayerCam").transform;
-        if(playerCameraTransform == null) Debug.LogError("PlayerCam is null");
+        if(playerCameraTransform == null) 
+            Debug.LogError("PlayerCam is null");
+        currentImgIndex = 0;
+        hintCanvas.GetComponent<Image>().sprite = hintImgList[currentImgIndex].GetComponent<Image>().sprite;
     }
-
+    
     public void Interact(Transform interactorTransform)
     {
+        Debug.Log("Interact with HintBoard");
         TogglePick(interactorTransform);
+        clickCanvas.SetActive(isHolding);
     }
 
     private void TogglePick(Transform interactorTransform)
     {
         isHolding = !isHolding;
-        
         if (interactorTransform.GetComponent<PlayerInteract>().holdingItem != null)
         {
             if(isHolding) isHolding = !isHolding;
@@ -40,10 +49,15 @@ public class Scanner : MonoBehaviour, IInteractable
             if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
     }
-
+    
     public string GetUsage()
     {
         return "Press F to Scan";
+    }
+
+    public void Use(Transform interactorTransform)
+    {
+        
     }
 
     public string GetItemName()
@@ -53,43 +67,45 @@ public class Scanner : MonoBehaviour, IInteractable
     
     public string GetInteractText()
     {
-        return $"Press E to Pick up {transform.name}";
+        return $"Press E to Pick up {GetItemName()}";
     }
     
-    public void Use(Transform interactorTransform)
+    private void Update()
     {
-        GameObject itemToScan = interactorTransform.GetComponent<PlayerInteract>().GetInteractableObj();
-        if (isHolding)
+        if (Input.GetMouseButtonDown(0) && isHolding)
         {
-            if(itemToScan == null) return;
-            if (itemToScan.transform.GetComponent<IInteractable>() != null && // 可互動
-                itemToScan.transform.GetComponent<ProductObj>() != null && //是商品Obj
-                !itemToScan.GetComponent<ProductObj>().isChecked) // 還沒被掃描過
-            {
-                SoundManager.instance.PlayClip_Scan();
-                itemToScan.GetComponent<ProductObj>().Highlight();
-                itemToScan.GetComponent<ProductObj>().isChecked = true;
-            }
+            currentImgIndex += 1;
+            if(currentImgIndex > hintImgList.Count - 1) currentImgIndex = 0;
+            UpdateHintImg();
         }
     }
-
+    
     private void LateUpdate()
     {
         if(isHolding)
         {
+            GetComponent<BoxCollider>().enabled = false;
             Holding();
         }
         else
         {
+            GetComponent<BoxCollider>().enabled = true;
             GetComponent<Rigidbody>().isKinematic = false;
         }
     }
     
     void Holding()
     {
-        transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.55f, -0.55f, 0.8f));
-        transform.rotation = Quaternion.LookRotation(playerCameraTransform.forward, Vector3.up);
-        transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+        transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.14f, 0.2f, 0.4f));
+        Vector3 dirToPlayer = playerCameraTransform.forward;
+        Quaternion rotation = Quaternion.LookRotation(dirToPlayer);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 20f);
         GetComponent<Rigidbody>().isKinematic = true;
     }
+
+    void UpdateHintImg()
+    {
+        hintCanvas.GetComponent<Image>().sprite = hintImgList[currentImgIndex].GetComponent<Image>().sprite;
+    }
+
 }

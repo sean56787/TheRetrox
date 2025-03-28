@@ -36,7 +36,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip Snore_Clip;
     [Header("hurry up & wasting my time sound")]
     public AudioClip HurryUp_Clip;
-    public AudioClip Waste_Clip;
     [Header("Player Throw")]
     public AudioClip PlayerThrow_Clip;
     [Header("Door")]
@@ -143,16 +142,10 @@ public class SoundManager : MonoBehaviour
         if(validAudioSource!= null) validAudioSource.PlayOneShot(HurryUp_Clip, 0.5f);
     }
     
-    public void PlayClip_WasteMyTime()
-    {
-        AudioSource validAudioSource = GetAvailableAudioSource();
-        if(validAudioSource!= null) validAudioSource.PlayOneShot(Waste_Clip, 0.5f);
-    }
-    
     public void PlayClip_PlayerThrow()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
-        if(validAudioSource!= null) validAudioSource.PlayOneShot(PlayerThrow_Clip, 1f);
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(PlayerThrow_Clip, 0.5f);
     }
     
     public void PlayClip_DoorOpen()

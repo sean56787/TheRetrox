@@ -352,7 +352,6 @@ public class NPCController : MonoBehaviour
         
         if(moneyObj.GetComponent<MoneyObj>().playerReceived)
         {
-            if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) SoundManager.instance.PlayClip_WasteMyTime();
             CounterQueueManager.instance.RemoveFirst();
             CounterQueueManager.instance.UpdateQueue();
             ChangeState(NPCState.ExitStore);

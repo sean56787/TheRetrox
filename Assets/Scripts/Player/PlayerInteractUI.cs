@@ -14,7 +14,7 @@ public class PlayerInteractUI : MonoBehaviour
     
     public GameObject interactableUIHintObj;
     public TextMeshProUGUI interactableUIHintText;
-    public Image crosshair;
+    public Image crossfire;
     public bool isShowingHint = false;
     private void Awake()
     {
@@ -26,24 +26,24 @@ public class PlayerInteractUI : MonoBehaviour
         
         if (PlayerInteract.instance.GetInteractableObj())
         {
-            crosshair.color = Color.green;
+            crossfire.color = Color.green;
             ShowInteract(PlayerInteract.instance.GetInteractableObj().GetComponent<IInteractable>());
         }
         else
         {
-            crosshair.color = Color.white;
+            crossfire.color = Color.white;
             HideInteract();
         }
         
         if (PlayerInteract.instance.holdingItem != null)
         {
-            crosshair.color = new Color(255, 107, 0);
+            crossfire.color = new Color(255, 107, 0);
             string hint = GetUnequipHint();
             ShowHint(hint);
         }
         else
         {
-            crosshair.color = Color.white;
+            crossfire.color = Color.white;
             if(!isShowingHint) HideHint();
         }
     }
