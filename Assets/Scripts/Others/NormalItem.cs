@@ -61,6 +61,9 @@ public class NormalItem : MonoBehaviour, IInteractable
         {
             if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
+        
+        if(isHolding) DisableColliders();
+        else EnableColliders();
     }
     
     public string GetInteractText()
@@ -81,5 +84,35 @@ public class NormalItem : MonoBehaviour, IInteractable
     public string GetItemName()
     {
         return _itemName;
+    }
+
+    void EnableColliders()
+    {
+        Collider selfCollider = GetComponent<Collider>();
+        if(selfCollider) selfCollider.enabled = true;
+        
+        Collider[] childrenColliders = gameObject.GetComponentsInChildren<Collider>();
+        if (childrenColliders != null)
+        {
+            foreach (var c in childrenColliders)
+            {
+                if(c) c.enabled = true;
+            }
+        }
+    }
+    
+    void DisableColliders()
+    {
+        Collider selfCollider = GetComponent<Collider>();
+        if(selfCollider) selfCollider.enabled = false;
+        
+        Collider[] childrenColliders = gameObject.GetComponentsInChildren<Collider>();
+        if (childrenColliders != null)
+        {
+            foreach (var c in childrenColliders)
+            {
+                c.enabled = false;
+            }
+        }
     }
 }

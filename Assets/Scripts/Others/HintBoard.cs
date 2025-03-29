@@ -26,14 +26,13 @@ public class HintBoard : MonoBehaviour, IInteractable
     
     public void Interact(Transform interactorTransform)
     {
-        Debug.Log("Interact with HintBoard");
         TogglePick(interactorTransform);
-        clickCanvas.SetActive(isHolding);
     }
 
     private void TogglePick(Transform interactorTransform)
     {
         isHolding = !isHolding;
+        
         if (interactorTransform.GetComponent<PlayerInteract>().holdingItem != null)
         {
             if(isHolding) isHolding = !isHolding;
@@ -48,6 +47,11 @@ public class HintBoard : MonoBehaviour, IInteractable
         {
             if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
+        
+        if(isHolding) GetComponent<BoxCollider>().enabled = false;
+        else GetComponent<BoxCollider>().enabled = true;
+        
+        clickCanvas.SetActive(isHolding);
     }
     
     public string GetUsage()
@@ -84,12 +88,10 @@ public class HintBoard : MonoBehaviour, IInteractable
     {
         if(isHolding)
         {
-            GetComponent<BoxCollider>().enabled = false;
             Holding();
         }
         else
         {
-            GetComponent<BoxCollider>().enabled = true;
             GetComponent<Rigidbody>().isKinematic = false;
         }
     }

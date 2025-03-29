@@ -10,7 +10,8 @@ public class GameStateManager : MonoBehaviour
     public bool isInGame = false;
     public bool inGamePaused = false;
     public bool isSaveLoadUIOpening = false;
-
+    public bool isOperating = false;
+    
     [Header("Default Game State")] 
     public Vector3 defaultPlayerPosition = new Vector3(11.5f, 1.5f, -13.0f);
     public float defaultPlayerMoney = 0f;
@@ -22,6 +23,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Start()
     {
+        isOperating = false;
         inMainMenu = true;
         isInGame = false;
         inGamePaused = false;

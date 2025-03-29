@@ -66,7 +66,7 @@ public class Scanner : MonoBehaviour, IInteractable
                 itemToScan.transform.GetComponent<ProductObj>() != null && //是商品Obj
                 !itemToScan.GetComponent<ProductObj>().isChecked) // 還沒被掃描過
             {
-                SoundManager.instance.PlayClip_Scan();
+                StartCoroutine(SoundManager.instance.PlayClip_Scan());
                 itemToScan.GetComponent<ProductObj>().Highlight();
                 itemToScan.GetComponent<ProductObj>().isChecked = true;
             }

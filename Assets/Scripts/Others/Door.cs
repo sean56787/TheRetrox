@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -9,10 +10,10 @@ public class Door : MonoBehaviour, IInteractable
     public Transform doorPivot;
     public float openAngle = 120f;
     public float currentAngle;
+    public bool isOpen = false;
     
     private Vector3 _closedPosition;
     private Vector3 _openedPosition;
-    private bool _isOpen = false;
     private bool _isOpeningDoor = false;
     private string _itemName = "Door";
     public void Interact(Transform interactorTransform)
@@ -24,7 +25,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (!_isOpeningDoor)
         {
-            _isOpen = !_isOpen;
+            isOpen = !isOpen;
             StartCoroutine(SwitchDoorState());
         }
     }
@@ -32,9 +33,9 @@ public class Door : MonoBehaviour, IInteractable
     IEnumerator SwitchDoorState()
     {
         _isOpeningDoor = true;
-        if (_isOpen)// 要打開
+        if (isOpen)// 要打開
         {
-            SoundManager.instance.PlayClip_DoorClose();
+            StartCoroutine(SoundManager.instance.PlayClip_DoorClose());
             if (currentAngle < openAngle)
             {
                 while (currentAngle < openAngle)
@@ -66,9 +67,9 @@ public class Door : MonoBehaviour, IInteractable
             }
             
         }
-        else if (!_isOpen)
+        else if (!isOpen)
         {
-            SoundManager.instance.PlayClip_DoorOpen();
+            StartCoroutine(SoundManager.instance.PlayClip_DoorOpen());
             if (currentAngle > 0)
             {
                 while (currentAngle > 0)
@@ -104,7 +105,7 @@ public class Door : MonoBehaviour, IInteractable
     
     public string GetInteractText()
     {
-        if (_isOpen)
+        if (isOpen)
         {
             return $"Press E to CLOSE door";
         }

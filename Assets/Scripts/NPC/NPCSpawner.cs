@@ -18,9 +18,9 @@ public class NPCSpawner : MonoBehaviour
     public float minSpawnTime = 15f;
     public float maxSpawnTime = 30f;
     public bool isInSpawnDelay = false;
-
     private void Start()
     {
+       
         foreach (var origin in originNPCList)
         {
             origin.SetActive(false);

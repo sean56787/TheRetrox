@@ -7,6 +7,19 @@ using Random = UnityEngine.Random;
 public class WaypointDecide : MonoBehaviour
 {
     public int branchRate = 50;
+
+    private void Update()
+    {
+        if (GameStateManager.instance.isOperating)
+        {
+            branchRate = 50;
+        }
+        else
+        {
+            branchRate = 0;
+        }
+    }
+
     public void BranchDecision()
     {
         int prob = Random.Range(0, 101);

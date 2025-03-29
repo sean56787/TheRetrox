@@ -91,7 +91,7 @@ public class SoundManager : MonoBehaviour
             audioSourcePool.Add(newSource);
             return newSource;
         }
-
+        
         return null;
     }
     void PlayBGM()
@@ -99,81 +99,116 @@ public class SoundManager : MonoBehaviour
         audioSourceForBGM.loop = true;
         audioSourceForBGM.Play();
     }
+
+    void PlayClip_ButtonClick_Invoker()
+    {
+        StartCoroutine(PlayClip_ButtonClick());
+    }
     
-    void PlayClip_ButtonClick()
+    IEnumerator PlayClip_ButtonClick()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = ButtonClick_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(ButtonClick_Clip, 0.3f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_Scan()
+    public IEnumerator PlayClip_Scan()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = Scan_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(Scan_Clip);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_Cash()
+    public IEnumerator PlayClip_Cash()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = Cash_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(Cash_Clip);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_Angry()
+    public IEnumerator PlayClip_Angry()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = Angry_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(Angry_Clip, 0.5f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
 
-    public void PlayClip_ItemPop()
+    public IEnumerator PlayClip_ItemPop()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = ItemPop_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(ItemPop_Clip, 0.5f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_Snore(AudioSource validAudioSource)
+    public IEnumerator PlayClip_Snore(AudioSource validAudioSource)
     {
         // AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = Snore_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(Snore_Clip, 0.3f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_HurryUp()
+    public IEnumerator PlayClip_HurryUp()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = HurryUp_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(HurryUp_Clip, 0.5f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_PlayerThrow()
+    public IEnumerator PlayClip_PlayerThrow()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = PlayerThrow_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(PlayerThrow_Clip, 0.5f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_DoorOpen()
+    public IEnumerator PlayClip_DoorOpen()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = DoorOpen_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(DoorOpen_Clip, 0.3f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     
-    public void PlayClip_DoorClose()
+    public IEnumerator PlayClip_DoorClose()
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = DoorClose_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(DoorClose_Clip, 0.3f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
     }
     void SetUp_MainMenuButtonOnClick()
     {
-        MainMenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick);
-        MainMenu_LoadGame_Button.onClick.AddListener(PlayClip_ButtonClick);
-        MainMenu_ExitGame_Button.onClick.AddListener(PlayClip_ButtonClick);
-        Escmenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick);
-        Escmenu_SaveGame_Button.onClick.AddListener(PlayClip_ButtonClick);
-        Escmenu_LoadGame_Button.onClick.AddListener(PlayClip_ButtonClick);
-        Escmenu_Exit_Button.onClick.AddListener(PlayClip_ButtonClick);
-        SaveMenu_01_Button.onClick.AddListener(PlayClip_ButtonClick);
-        SaveMenu_02_Button.onClick.AddListener(PlayClip_ButtonClick);
-        SaveMenu_03_Button.onClick.AddListener(PlayClip_ButtonClick);
-        LoadMenu_01_Button.onClick.AddListener(PlayClip_ButtonClick);
-        LoadMenu_02_Button.onClick.AddListener(PlayClip_ButtonClick);
-        LoadMenu_03_Button.onClick.AddListener(PlayClip_ButtonClick);
+        MainMenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        MainMenu_LoadGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        MainMenu_ExitGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        Escmenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        Escmenu_SaveGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        Escmenu_LoadGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        Escmenu_Exit_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        SaveMenu_01_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        SaveMenu_02_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        SaveMenu_03_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        LoadMenu_01_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        LoadMenu_02_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
+        LoadMenu_03_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);
     }
 
     public IEnumerator PlayClip_PlayerWalk()

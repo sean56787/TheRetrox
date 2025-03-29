@@ -62,7 +62,7 @@ public class PlayerInteract : MonoBehaviour
         itemRb.isKinematic = false;
         Vector3 dirToThrow = ((playerCam.transform.position + playerCam.transform.forward * throwRange) -
                               lastHoldingItem.transform.position).normalized;
-        SoundManager.instance.PlayClip_PlayerThrow();
+        StartCoroutine(SoundManager.instance.PlayClip_PlayerThrow());
         itemRb.AddForce(dirToThrow * throwPower, ForceMode.Impulse);
     } 
 }
