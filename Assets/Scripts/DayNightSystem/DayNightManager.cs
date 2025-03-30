@@ -83,6 +83,7 @@ public class DayNightManager : MonoBehaviour
         sunLight.SetActive(false);
         isDaytime = false;
         LightSwitch(true);
+        Invoke_OperatingSwitch_CloseStore();
         dayCycleTextMeshProUGUI.text = "Night";
         RenderSettings.skybox = nightMaterial;
         RenderSettings.ambientLight = new Color(0.1f, 0.1f, 0.1f);
@@ -149,4 +150,17 @@ public class DayNightManager : MonoBehaviour
         }
     }
 
+    void Invoke_OperatingSwitch_CloseStore()
+    {
+        StartCoroutine(SoundManager.instance.PlayClip_PressSwitch());
+        GameStateManager.instance.isOperating = false;
+        OperatingSwitch.instance.SignLight();
+    }
+    
+    void Invoke_OperatingSwitch_OpenStore()
+    {
+        StartCoroutine(SoundManager.instance.PlayClip_PressSwitch());
+        GameStateManager.instance.isOperating = true;
+        OperatingSwitch.instance.SignLight();
+    }
 }

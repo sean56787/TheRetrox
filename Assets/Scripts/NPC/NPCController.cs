@@ -242,7 +242,8 @@ public class NPCController : MonoBehaviour
                 }
                 unCheckedProductsList.Add(unCheckedProduct);
                 // unCheckedProduct.transform.SetParent(unCheckedProducts);
-                yield return new WaitForSeconds(1f);
+                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) yield return new WaitForSeconds(0.1f);
+                else yield return new WaitForSeconds(1f);
             } 
         }
         // if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth) CancelInvoke(nameof(SoundManager.instance.PlayClip_Snore));

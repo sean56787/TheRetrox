@@ -5,9 +5,15 @@ using UnityEngine;
 using UnityEngine.Serialization;
 public class OperatingSwitch: MonoBehaviour, IInteractable
 {
+    public static OperatingSwitch instance;
     public GameObject[] signOutside;
     public GameObject[] signInside;
     private string _itemName;
+
+    private void Awake()
+    {
+        if(instance == null) instance = this;
+    }
 
     private void Start()
     {
@@ -26,6 +32,7 @@ public class OperatingSwitch: MonoBehaviour, IInteractable
     public void Interact(Transform interactorTransform)
     {
         Debug.Log("switch");
+        StartCoroutine(SoundManager.instance.PlayClip_PressSwitch());
         GameStateManager.instance.isOperating = !GameStateManager.instance.isOperating;
         SignLight();
     }
@@ -51,7 +58,7 @@ public class OperatingSwitch: MonoBehaviour, IInteractable
         return _itemName;
     }
 
-    void SignLight()
+    public void SignLight()
     {
         if (GameStateManager.instance.isOperating)
         {

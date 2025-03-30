@@ -35,7 +35,7 @@ public class Door : MonoBehaviour, IInteractable
         _isOpeningDoor = true;
         if (isOpen)// 要打開
         {
-            StartCoroutine(SoundManager.instance.PlayClip_DoorClose());
+            StartCoroutine(SoundManager.instance.PlayClip_DoorOpen());
             if (currentAngle < openAngle)
             {
                 while (currentAngle < openAngle)
@@ -69,7 +69,7 @@ public class Door : MonoBehaviour, IInteractable
         }
         else if (!isOpen)
         {
-            StartCoroutine(SoundManager.instance.PlayClip_DoorOpen());
+            StartCoroutine(SoundManager.instance.PlayClip_DoorClose());
             if (currentAngle > 0)
             {
                 while (currentAngle > 0)

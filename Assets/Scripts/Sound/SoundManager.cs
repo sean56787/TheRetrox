@@ -41,6 +41,8 @@ public class SoundManager : MonoBehaviour
     [Header("Door")]
     public AudioClip DoorOpen_Clip;
     public AudioClip DoorClose_Clip;
+    [Header("switch")]
+    public AudioClip Switch_Clip;
     
     
     
@@ -194,6 +196,16 @@ public class SoundManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         validAudioSource.Stop();
     }
+    
+    public IEnumerator PlayClip_PressSwitch()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = Switch_Clip.length;
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Switch_Clip, 0.3f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
+    }
+    
     void SetUp_MainMenuButtonOnClick()
     {
         MainMenu_StartNewGame_Button.onClick.AddListener(PlayClip_ButtonClick_Invoker);

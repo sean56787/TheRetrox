@@ -13,7 +13,7 @@ public class GameStateManager : MonoBehaviour
     public bool isOperating = false;
     
     [Header("Default Game State")] 
-    public Vector3 defaultPlayerPosition = new Vector3(11.5f, 1.5f, -13.0f);
+    public Vector3 defaultPlayerPosition = new Vector3(15f, 1.5f, -10f);
     public float defaultPlayerMoney = 0f;
     public NPCSpawner[] npcSpawners;
     private void Awake()
