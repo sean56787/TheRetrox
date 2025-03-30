@@ -49,12 +49,12 @@ public class NPCSpawner : MonoBehaviour
     {
         if(!DayNightManager.instance.isDaytime) return;
         Transform spawnPoint = worldSpawnPoint[Random.Range(0, worldSpawnPoint.Count)];
-        Vector3 randomPosition = spawnPoint.position + Random.insideUnitSphere * 3f; // 取以點為半徑3的隨機位置
+        Vector3 randomPosition = spawnPoint.position + Random.insideUnitSphere * 1f; // 取以點為半徑1的隨機位置
         randomPosition.y = spawnPoint.position.y; // 強制高度
 
         NavMeshHit navHit;
-        if (NavMesh.SamplePosition(randomPosition, out navHit, 5f,
-                NavMesh.AllAreas)) //如果randomPosition不能走 就在半徑5再找一個
+        if (NavMesh.SamplePosition(randomPosition, out navHit, 2f,
+                NavMesh.AllAreas)) //球形半徑x找一個可以走的位置
         {
             GameObject randomNPC = originNPCList[Random.Range(0, originNPCList.Count)];
             GameObject newNPC = Instantiate(randomNPC, navHit.position, Quaternion.identity); //Quaternion.identity 保持原來方向

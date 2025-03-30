@@ -100,7 +100,7 @@ public class GameSaveSystem : MonoBehaviour
             else
             {
                 saveTimes[i].text = "Empty Slot";
-                moneyTexts[i].text = "$$$";
+                moneyTexts[i].text = "$???";
             }
         }
     }
@@ -108,6 +108,7 @@ public class GameSaveSystem : MonoBehaviour
     public void OpenSaveLoadMenu(int mode)
     {
         if(!IsGameStateManagerAvailable()) Debug.LogError("NO GSM");
+        UpdateSaveSlots();
         PlayerUI.instance.DisablePlayerUI();
         if (GameStateManager.instance.inGamePaused)
         {

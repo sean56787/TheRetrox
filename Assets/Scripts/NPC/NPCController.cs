@@ -303,6 +303,7 @@ public class NPCController : MonoBehaviour
         }
         moneyObj.GetComponent<MoneyObj>().money = _npcShoppingList.GetCustomerPaid();
         moneyObj.GetComponent<MoneyObj>().playerReceived = false;
+        moneyObj.GetComponent<MoneyObj>().Highlight();
         ChangeState(NPCState.WaitingForReceiveChange);
     }
     
@@ -353,7 +354,12 @@ public class NPCController : MonoBehaviour
 
     void CheckDaytime()
     {
-        if (!DayNightManager.instance.isDaytime && waypointNavigator.isInStore)
+        if (!DayNightManager.instance.isDaytime &&
+            waypointNavigator.isInStore &&
+            currentNpcState != NPCState.Checkout &&
+            currentNpcState != NPCState.WaitingForCheckout &&
+            currentNpcState != NPCState.Pay &&
+            currentNpcState != NPCState.WaitingForReceiveChange)
         {
             waypointNavigator.isInStore = false;
             ChangeState(NPCState.ExitStore);

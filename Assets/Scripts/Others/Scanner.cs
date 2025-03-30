@@ -39,6 +39,9 @@ public class Scanner : MonoBehaviour, IInteractable
         {
             if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
+        
+        if(isHolding) DisableColliders();
+        else EnableColliders();
     }
 
     public string GetUsage()
@@ -91,5 +94,35 @@ public class Scanner : MonoBehaviour, IInteractable
         transform.rotation = Quaternion.LookRotation(playerCameraTransform.forward, Vector3.up);
         transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
         GetComponent<Rigidbody>().isKinematic = true;
+    }
+    
+    void EnableColliders()
+    {
+        Collider selfCollider = GetComponent<Collider>();
+        if(selfCollider) selfCollider.enabled = true;
+        
+        Collider[] childrenColliders = gameObject.GetComponentsInChildren<Collider>();
+        if (childrenColliders != null)
+        {
+            foreach (var c in childrenColliders)
+            {
+                if(c) c.enabled = true;
+            }
+        }
+    }
+    
+    void DisableColliders()
+    {
+        Collider selfCollider = GetComponent<Collider>();
+        if(selfCollider) selfCollider.enabled = false;
+        
+        Collider[] childrenColliders = gameObject.GetComponentsInChildren<Collider>();
+        if (childrenColliders != null)
+        {
+            foreach (var c in childrenColliders)
+            {
+                c.enabled = false;
+            }
+        }
     }
 }

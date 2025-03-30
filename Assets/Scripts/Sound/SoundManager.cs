@@ -138,7 +138,7 @@ public class SoundManager : MonoBehaviour
     {
         AudioSource validAudioSource = GetAvailableAudioSource();
         float duration = Angry_Clip.length;
-        if(validAudioSource!= null) validAudioSource.PlayOneShot(Angry_Clip, 0.5f);
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(Angry_Clip, 0.2f);
         yield return new WaitForSeconds(duration);
         validAudioSource.Stop();
     }

@@ -136,6 +136,7 @@ public class DayNightManager : MonoBehaviour
         sunLight.SetActive(true);
         isDaytime = true;
         LightSwitch(false);
+        Invoke_OperatingSwitch_CloseStore();
         ResetTime();
         RenderSettings.skybox = dayMaterial;
         RenderSettings.ambientLight = new Color(0.6f, 0.6f, 0.6f);

@@ -13,6 +13,7 @@ public class MoneyObj : MonoBehaviour, IInteractable
     public bool absorbing;
     private string _itemName = "MoneyObj";
     public Transform playerTransform;
+
     public void Interact(Transform interactorTransform)
     {
         if (interactorTransform.GetComponent<Player>() != null) //是玩家
@@ -61,4 +62,12 @@ public class MoneyObj : MonoBehaviour, IInteractable
     {
         return _itemName;
     }
+    
+    public void Highlight()
+    {
+        transform.GetComponent<Outline>().enabled = true;
+        transform.GetComponent<Outline>().OutlineColor = Color.yellow;
+        transform.GetComponent<Outline>().OutlineWidth = 5f;
+    }
+    
 }
