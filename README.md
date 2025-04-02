@@ -1,15 +1,15 @@
 # 🎮 One Receipt Away
-![Store](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%95%86%E5%BA%97.png)
-
 ## 介紹
 遊戲裡你將扮演一個打工人，在某個偏僻小鎮唯一的超商裡當收銀員，你不僅一早就要起來開店，幫客人結帳商品，有些人買一大堆東西害你手忙腳亂，有時還要忍受某些客人的壞脾氣，對你丟東西還出言羞辱，最慘的是就連睡覺也只能睡在儲藏室的地板，但為了生活，這些小事不算什麼，因為你有個夢想一直支撐著你，這個夢想就是用現金買下小鎮裡人人嚮往的那間溫馨小木屋
+
+![Store](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%95%86%E5%BA%97.png)
 
 ## 開發環境
 | 名稱 | 版本 | 說明 |
 |------|------|------|
-| Unity | '2021.3.1f1 LTS' | 遊戲引擎 |
-| C# | '10.0' | 主要開發語言 |
-| Git | '2.37.1' | 版本控制 |
+| Unity | `2021.3.1f1 LTS` | 遊戲引擎 |
+| C# | `10.0` | 主要開發語言 |
+| Git | `2.37.1` | 版本控制 |
 
 ## 核心技術
 ### 玩家
@@ -28,6 +28,7 @@
 | 配置 |
 |------|
 | `MeshCollider` or `BoxCollider`, `Rigidbody` |
+
 ![物品配置](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E7%89%A9%E5%93%81.png)
 
 | 行為 | 運作方式 |
@@ -41,6 +42,7 @@
 | 配置 |
 |------|
 | `CapsuleCollider`, `Rigidbody`, `NavMeshAgent` |
+
 ![NPC配置](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/NPC%E9%85%8D%E7%BD%AE.png)
 
 | 行為 | 運作方式 |
@@ -52,33 +54,40 @@
 | 設置 |
 |------|
 | 將地形設置成`Navigation Static`後，在表面`Bake`出`NPC`行走範圍 |
+
 ![NavMesh](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/NavMesh.png)
 
 ### NavMesh-Obstacle(空氣牆)
 | 設置 |
 |------|
 | 使用`NavMesh`的`Obstacle`來限制`NPC`進入特定範圍 |
+
 ![Obstacle](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/NavMesh-obstacle.png)
 
 ### Terrain
 | 設置 |
 |------|
 | 地形設置使用內建`Terrain`系統快速搭建地形 |
+
 ![Terrain02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%9C%B0%E5%BD%A202.png)
+
+| 設置 |
+|------|
 | 上色使用`Paint Texture` |
+
 ![Terrain02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%9C%B0%E5%BD%A203.png)
 
 ### 光源
-| 名稱 | 配置 |
+| 名稱 | 運作方式 |
 |------|------|
-| 小型光源A | 使用`Spot`來呈現鎢絲燈泡 |
+| `Spot Light` | 模擬鎢絲燈泡 |
 
 ![Light01](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9001.png) 
 ![Light02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9002.png)
 
-| 名稱 | 配置 |
+| 名稱 | 運作方式 |
 |------|------|
-| 小型光源B | 使用`Point`呈現LED燈 |
+| `Point Light` | 模擬LED燈 |
 
 ![Light03](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9003.png)
 ![Light04](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9004.png)
