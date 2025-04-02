@@ -1,4 +1,5 @@
 # 🎮 One Receipt Away
+![Store](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%95%86%E5%BA%97.png)
 
 ## 介紹
 遊戲裡你將扮演一個打工人，在某個偏僻小鎮唯一的超商裡當收銀員，你不僅一早就要起來開店，幫客人結帳商品，有些人買一大堆東西害你手忙腳亂，有時還要忍受某些客人的壞脾氣，對你丟東西還出言羞辱，最慘的是就連睡覺也只能睡在儲藏室的地板，但為了生活，這些小事不算什麼，因為你有個夢想一直支撐著你，這個夢想就是用現金買下小鎮裡人人嚮往的那間溫馨小木屋
@@ -64,8 +65,37 @@
 |------|
 | 地形設置使用內建`Terrain`系統快速搭建地形 |
 ![Terrain02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%9C%B0%E5%BD%A202.png)
-| 上色使用`Pain Texture` |
+| 上色使用`Paint Texture` |
 ![Terrain02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%9C%B0%E5%BD%A203.png)
+
+### 光源
+| 名稱 | 配置 |
+|------|------|
+| 小型光源A | 使用`Spot`來呈現鎢絲燈泡 |
+
+![Light01](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9001.png) 
+![Light02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9002.png)
+
+| 名稱 | 配置 |
+|------|------|
+| 小型光源B | 使用`Point`呈現LED燈 |
+
+![Light03](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9003.png)
+![Light04](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%85%89%E6%BA%9004.png)
+
+| 名稱 | 配置 |
+|------|------|
+| 環境光源 | `Lighting` -> `Enviroment` 在白天時將`Ambient Color`設置成`0.6`，晚上則降為`0.1`，減少物體散發的自身光源，微小的`Reflection`讓物體反射`SkyBox`的光，夜晚可以模擬月光 |
+
+![Light05](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E7%92%B0%E5%A2%83%E5%85%8901.png)
+![Light06](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E7%92%B0%E5%A2%83%E5%85%8902.png)
+
+### 其他
+| 名稱 | 配置 |
+|------|------|
+| 霧氣 | `Lighting` -> `Enviroment` -> `Fog` 設為`Exponential`模式，讓場景帶有偏僻小鎮詭異的寧靜感|
+
+![Fog](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E9%9C%A7%E6%B0%A3.png)
 
 
 
