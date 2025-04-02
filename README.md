@@ -1,17 +1,22 @@
 # 🎮 One Receipt Away
-## 介紹
+### 👀 Download
+  * [Itch.io](https://sean56787.itch.io/one-receipt-away)
+  * [Google Drive](https://drive.google.com/drive/folders/1-oMF0VrzTKsHM9leTku_WUzo2oh1X_9R)
+  * [完整Unity專案](https://drive.google.com/drive/folders/1hI6tAMe_-tIu1LNjzHz2Qra_1h8Xgvng)
+
+## 📝 介紹
 遊戲裡你將扮演一個打工人，在某個偏僻小鎮唯一的超商裡當收銀員，你不僅一早就要起來開店，幫客人結帳商品，有些人買一大堆東西害你手忙腳亂，有時還要忍受某些客人的壞脾氣，對你丟東西還出言羞辱，最慘的是就連睡覺也只能睡在儲藏室的地板，但為了生活，這些小事不算什麼，因為你有個夢想一直支撐著你，這個夢想就是用現金買下小鎮裡人人嚮往的那間溫馨小木屋
 
 ![Store](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%95%86%E5%BA%97.png)
 
-## 開發環境
+## 🖥️ 開發環境
 | 名稱 | 版本 | 說明 |
 |------|------|------|
 | Unity | `2021.3.1f1 LTS` | 遊戲引擎 |
 | C# | `10.0` | 主要開發語言 |
 | Git | `2.37.1` | 版本控制 |
 
-## 核心技術
+## 🔋 核心技術
 ### 玩家
 | 配置 |
 |------|
@@ -38,7 +43,7 @@
 | 物體運動 | 設定為`Interpolate(插值)`，使物體運動更平滑、減少抖動 | 
 | 碰撞檢測 | 設定為`Continuous(持續檢測碰撞)`，對於移動速度快的東西更能有效減少穿模的問題 |
 
-### NPC
+### NPC 🤖
 | 配置 |
 |------|
 | `CapsuleCollider`, `Rigidbody`, `NavMeshAgent` |
@@ -77,7 +82,7 @@
 
 ![Terrain02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%9C%B0%E5%BD%A203.png)
 
-### 光源
+### 光源 ⛅
 | 名稱 | 運作方式 |
 |------|------|
 | `Spot Light` | 模擬鎢絲燈泡 |
