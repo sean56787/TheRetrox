@@ -16,8 +16,9 @@
 | C# | `10.0` | 主要開發語言 |
 | Git | `2.37.1` | 版本控制 |
 
-## 🔋 核心技術
-### 玩家
+# 🔋 核心技術
+
+## 玩家
 | 配置 |
 |------|
 | `CapsuleCollider`, `Rigidbody` |
@@ -29,7 +30,7 @@
 | 玩家移動 | 使用`Rigidbody`的`Addforce`來推動玩家，可以表現出更加流暢和真實的移動 |
 | 玩家視角 | 採第一人稱視角，屏幕中心白點用於拿取物品、與物件互動 |
 
-### 物件
+## 物件
 | 配置 |
 |------|
 | `MeshCollider` or `BoxCollider`, `Rigidbody` |
@@ -43,7 +44,7 @@
 | 物體運動 | 設定為`Interpolate(插值)`，使物體運動更平滑、減少抖動 | 
 | 碰撞檢測 | 設定為`Continuous(持續檢測碰撞)`，對於移動速度快的東西更能有效減少穿模的問題 |
 
-### NPC 🤖
+## NPC 🤖
 | 配置 |
 |------|
 | `CapsuleCollider`, `Rigidbody`, `NavMeshAgent` |
@@ -55,21 +56,21 @@
 | NPC移動 | 使用Unity內建`NavMesh`來bake出NPC能行走的範圍，NPC移動時呼叫`NavMeshAgent.SetDestination`即可讓NPC移動至指定位置 |
 | NPC狀態機 | `enum NPCState` 自訂NPC的16種狀態，並在遊戲中持續檢測狀態並執行對應動作，包括`行走`、`拿取物品`、`結帳`等|
 
-### NavMesh
+## NavMesh
 | 設置 |
 |------|
 | 將地形設置成`Navigation Static`後，在表面`Bake`出`NPC`行走範圍 |
 
 ![NavMesh](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/NavMesh.png)
 
-### NavMesh-Obstacle(空氣牆)
+## NavMesh-Obstacle(空氣牆)
 | 設置 |
 |------|
 | 使用`NavMesh`的`Obstacle`來限制`NPC`進入特定範圍 |
 
 ![Obstacle](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/NavMesh-obstacle.png)
 
-### Terrain
+## Terrain
 | 設置 |
 |------|
 | 地形設置使用內建`Terrain`系統快速搭建地形 |
@@ -82,7 +83,7 @@
 
 ![Terrain02](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E5%9C%B0%E5%BD%A203.png)
 
-### 光源 ⛅
+## 光源 ⛅
 | 名稱 | 運作方式 |
 |------|------|
 | `Spot Light` | 模擬鎢絲燈泡 |
@@ -104,7 +105,7 @@
 ![Light05](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E7%92%B0%E5%A2%83%E5%85%8901.png)
 ![Light06](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/%E7%92%B0%E5%A2%83%E5%85%8902.png)
 
-### 其他
+## 其他
 | 名稱 | 配置 |
 |------|------|
 | 霧氣 | `Lighting` -> `Enviroment` -> `Fog` 設為`Exponential`模式，讓場景帶有偏僻小鎮詭異的寧靜感|
