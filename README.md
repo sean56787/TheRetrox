@@ -19,8 +19,8 @@
 ## 場景資源
 | 名稱 | 來源 |
 |------|------|
-| 建築物&物品 | [https://sketchfab.com/](https://sketchfab.com/) |
-| 音效 | [https://freesound.org/](https://freesound.org/) or [https://www.youtube.com/](https://www.youtube.com/) |
+| 建築物&物品 | [Sketchfab](https://sketchfab.com/) |
+| 音效 | [Freesound](https://freesound.org/) or [Youtube](https://www.youtube.com/) |
 
 # 🔋 核心技術
 
