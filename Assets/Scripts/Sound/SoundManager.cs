@@ -43,7 +43,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip DoorClose_Clip;
     [Header("switch")]
     public AudioClip Switch_Clip;
-    
+    [Header("buy house")]
+    public AudioClip BuyHouse_Clip;
     
     
     [Header("Main menu button refs")]
@@ -202,6 +203,15 @@ public class SoundManager : MonoBehaviour
         AudioSource validAudioSource = GetAvailableAudioSource();
         float duration = Switch_Clip.length;
         if(validAudioSource!= null) validAudioSource.PlayOneShot(Switch_Clip, 0.3f);
+        yield return new WaitForSeconds(duration);
+        validAudioSource.Stop();
+    }
+    
+    public IEnumerator PlayClip_BuyHouse()
+    {
+        AudioSource validAudioSource = GetAvailableAudioSource();
+        float duration = BuyHouse_Clip.length;
+        if(validAudioSource!= null) validAudioSource.PlayOneShot(BuyHouse_Clip, 0.3f);
         yield return new WaitForSeconds(duration);
         validAudioSource.Stop();
     }

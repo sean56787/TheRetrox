@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class House : MonoBehaviour
 {
-    public float price = 100;
+    public float price = 150;
     public static House instance;
 
     private void Awake()

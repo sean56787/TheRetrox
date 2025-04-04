@@ -35,6 +35,7 @@ public class GameStateManager : MonoBehaviour
     {
         Player.instance.transform.position = defaultPlayerPosition; // 重置玩家位置
         Player.instance.balance = defaultPlayerMoney; // 重置玩家金錢
+        Player.instance.homeUnlocked = false;
         PlayerUI.instance.UpdatePlayerUI();
         DayNightManager.instance.ResetTime(); // 重設時間
         ResetNPCStuffOnly();

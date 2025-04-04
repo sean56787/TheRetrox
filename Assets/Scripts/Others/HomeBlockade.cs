@@ -11,6 +11,7 @@ public class HomeBlockade : MonoBehaviour, IInteractable
     {
         if (interactorTransform.GetComponent<Player>().balance >= House.instance.price)
         {
+            StartCoroutine(SoundManager.instance.PlayClip_BuyHouse());
             interactorTransform.GetComponent<Player>().balance -= House.instance.price;
             PlayerUI.instance.UpdatePlayerUI();
             interactorTransform.GetComponent<Player>().homeUnlocked = true;
@@ -20,7 +21,7 @@ public class HomeBlockade : MonoBehaviour, IInteractable
 
     public string GetInteractText()
     {
-        return "Press E To Buy a House, Price: 100$";
+        return $"Press E To Buy a House, Price: <color=green>{House.instance.price}$</color>";
     }
 
     public string GetUsage()

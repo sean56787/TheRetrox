@@ -6,10 +6,13 @@ using UnityEngine.Serialization;
 public class OperatingSwitch: MonoBehaviour, IInteractable
 {
     public static OperatingSwitch instance;
-    public GameObject[] signOutside;
-    public GameObject[] signInside;
+    public GameObject signOutside;
+    public GameObject signInside;
+    public GameObject lightOutside;
+    public GameObject lightInside;
     private string _itemName;
-
+    private Material _matOutside;
+    private Material _matInside;
     private void Awake()
     {
         if(instance == null) instance = this;
@@ -17,16 +20,17 @@ public class OperatingSwitch: MonoBehaviour, IInteractable
 
     private void Start()
     {
-        foreach (GameObject sign in signOutside)
-        {
-            sign.SetActive(true);
-            sign.GetComponent<Light>().color = Color.red;
-        }
-        foreach (GameObject sign in signInside)
-        {
-            sign.SetActive(true);
-            sign.GetComponent<Light>().color = Color.red;
-        }
+        _matOutside = signOutside.GetComponent<Renderer>().material;
+        _matInside = signInside.GetComponent<Renderer>().material;
+        _matOutside.DisableKeyword("_EMISSION");
+        _matInside.DisableKeyword("_EMISSION");
+        
+        lightOutside.SetActive(true);
+        lightOutside.GetComponent<Light>().color = Color.red;
+        
+        lightInside.SetActive(true);
+        lightInside.GetComponent<Light>().color = Color.red;
+        
     }
 
     public void Interact(Transform interactorTransform)
@@ -62,25 +66,24 @@ public class OperatingSwitch: MonoBehaviour, IInteractable
     {
         if (GameStateManager.instance.isOperating)
         {
-            foreach (GameObject sign in signOutside)
-            {
-                sign.GetComponent<Light>().color = Color.green;
-            }
-            foreach (GameObject sign in signInside)
-            {
-                sign.GetComponent<Light>().color = Color.green;
-            }
+            _matOutside = signOutside.GetComponent<Renderer>().material;
+            _matInside = signInside.GetComponent<Renderer>().material;
+            _matOutside.EnableKeyword("_EMISSION");
+            _matInside.EnableKeyword("_EMISSION");
+            _matOutside.SetColor("_EmissionColor", Color.green);
+            _matInside.SetColor("_EmissionColor", Color.green);
+            
+            lightOutside.GetComponent<Light>().color = Color.green;
+            lightInside.GetComponent<Light>().color = Color.green;
         }
         else
         {
-            foreach (GameObject sign in signOutside)
-            {
-                sign.GetComponent<Light>().color = Color.red;
-            }
-            foreach (GameObject sign in signInside)
-            {
-                sign.GetComponent<Light>().color = Color.red;
-            }
+            _matOutside = signOutside.GetComponent<Renderer>().material;
+            _matInside = signInside.GetComponent<Renderer>().material;
+            _matOutside.DisableKeyword("_EMISSION");
+            _matInside.DisableKeyword("_EMISSION");
+            lightOutside.GetComponent<Light>().color = Color.red;
+            lightInside.GetComponent<Light>().color = Color.red;
         }
     }
 }

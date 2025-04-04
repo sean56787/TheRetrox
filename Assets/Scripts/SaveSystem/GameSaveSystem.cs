@@ -77,7 +77,7 @@ public class GameSaveSystem : MonoBehaviour
         {
             string jsData = File.ReadAllText(filePath);
             GameData data = JsonUtility.FromJson<GameData>(jsData);
-            
+            Player.instance.homeUnlocked = data.isHomeUnlocked;
             Player.instance.balance = data.playerMoney;
             PlayerUI.instance.UpdatePlayerUI();
             Player.instance.transform.position = new Vector3(data.playerPosition[0], data.playerPosition[1], data.playerPosition[2]);
