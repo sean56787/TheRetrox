@@ -55,6 +55,10 @@
 |------|
 | `CapsuleCollider`, `Rigidbody`, `NavMeshAgent` |
 
+| 個性 | 種類 |
+|------|------|
+| NPC會依照個性，來決定購買的物品種類、數量，同時也影響他們的脾氣、移動速度 | `Normal(正常人)`, `Shopaholic(購物狂)`, `Thrifty(節儉的)`, `InHurry(脾氣暴躁)`, `Sloth(懶人)`, `Drinker(飲料狂魔)`, `Fruiter(健康達人)`, `Snacker(零食達人)`|
+
 ![NPC配置](https://github.com/sean56787/TheRetrox/blob/main/README_IMG/NPC%E9%85%8D%E7%BD%AE.png)
 
 | 行為 | 運作方式 |
