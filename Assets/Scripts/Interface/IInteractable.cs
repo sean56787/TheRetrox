@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInteractable
+public interface IInteractable // 互動介面
 {
     void Interact(Transform interactorTransform);
     string GetInteractText();

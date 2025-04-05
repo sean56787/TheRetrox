@@ -39,7 +39,8 @@ public class NPCController : MonoBehaviour
     private bool _receivedChanges;
     private bool _isPlayingTriggerAnimation;
     private bool _isRaging;
-    public enum NPCState
+    
+    public enum NPCState // NPC 狀態機
     {
         IsWanderingAround,
         EnterStore,
@@ -58,8 +59,10 @@ public class NPCController : MonoBehaviour
         ExitStore,
         GoBackToStreet,
     }
+    
     [Header("NPC State")]
-    public NPCState currentNpcState;
+    public NPCState currentNpcState; // 目前NPC狀態
+    
     private void Awake()
     {
         _npcShoppingList = GetComponent<NPCShoppingList>();
@@ -67,27 +70,27 @@ public class NPCController : MonoBehaviour
         npcAnimator = GetComponent<NPCAnimator>();
         waypointNavigator = GetComponent<WaypointNavigator>();
         
-        ChangeState(NPCState.IsWanderingAround);
+        ChangeState(NPCState.IsWanderingAround); //預設 NPC "閒晃"
     }
 
     private void Update()
     {
-        CheckDaytime();
-        StateTree();
+        CheckDaytime(); // 白天才有機率進入商店
+        StateTree(); //NPC狀態機循環
     }
     
-    IEnumerator EnterStore()
+    IEnumerator EnterStore() // 進入商店
     {
         if (!enterStoreFlag)
         {
-            waypointNavigator.SetAgentInStoreDestination(waypointNavigator.entryPoint);
+            waypointNavigator.SetAgentInStoreDestination(waypointNavigator.entryPoint); // agent導引NPC到達商店位置
             enterStoreFlag = true;
-            while (!waypointNavigator.isAgentStopped && 
-                   (waypointNavigator.npcNavAgent.pathPending || 
-                    waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance))
+            while (!waypointNavigator.isAgentStopped &&  // 如果NPC還沒停
+                   (waypointNavigator.npcNavAgent.pathPending || // 如果NPC還在規劃路線
+                    waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance)) // 如果NPC還沒到達
             {
-                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation();
-                else npcAnimator.NPC_WalkAnimation();
+                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) npcAnimator.NPC_RunAnimation(); // 暴怒NPC要用快跑的
+                else npcAnimator.NPC_WalkAnimation(); // 普通NPC用走的
                 yield return null;
             }
             ChangeState(NPCState.SetShoppingRoute);
@@ -95,7 +98,7 @@ public class NPCController : MonoBehaviour
         }
     }
     
-    void SetShoppingRoute()
+    void SetShoppingRoute() // NPC開始規劃要買啥
     {
         if (!setShoppingRouteFlag)
         {
@@ -108,18 +111,18 @@ public class NPCController : MonoBehaviour
         }
     }
     
-    void MoveToNextCabinet()
+    void MoveToNextCabinet() // 準備走向下一個商品櫃
     {
         if (_targetProductQueue.Count == 0)
         {
             ChangeState(NPCState.JoinCounterQueue);
             return;
         }
-        _targetProduct = _targetProductQueue.Dequeue();
-        _targetCabinet = CabinetManager.instance.GetCabinet(_targetProduct.category);
+        _targetProduct = _targetProductQueue.Dequeue(); // 現在要拿的商品(從queue退出來)
+        _targetCabinet = CabinetManager.instance.GetCabinet(_targetProduct.category); // 走向下一個商品櫃
         if (_targetCabinet.cabinetCategory == _targetProduct.category)
         {
-            targetCabinetTransform = _targetCabinet.GetValidPosition();
+            targetCabinetTransform = _targetCabinet.GetValidPosition(); // 獲取商品櫃可以站的位置
             if (targetCabinetTransform != null)
             {
                 waypointNavigator.SetAgentInStoreDestination(targetCabinetTransform);
@@ -132,7 +135,7 @@ public class NPCController : MonoBehaviour
         }
     }
     
-    private IEnumerator MovingToCabinet()
+    private IEnumerator MovingToCabinet() // 正在走向目標商品櫃
     {
         //pathPending => 還在規劃路線
         while (!waypointNavigator.isAgentStopped &&
@@ -146,19 +149,19 @@ public class NPCController : MonoBehaviour
         ChangeState(NPCState.TakeProduct);
     }
     
-    IEnumerator RequestProduct()
+    IEnumerator RequestProduct() // 拿商品
     {
         _isPlayingTriggerAnimation = true;
-        npcAnimator.NPC_GrabAnimation();
+        npcAnimator.NPC_GrabAnimation(); // 拿商品動畫
         yield return new WaitForSeconds(2.333f);
         
-        _targetCabinet.CustomerProductRequestInvoker(_currentProductQueue, _targetProduct);
-        if (_targetProductQueue.Count == 0)
+        _targetCabinet.CustomerProductRequestInvoker(_currentProductQueue, _targetProduct); // 跟商品櫃互動
+        if (_targetProductQueue.Count == 0) // 如果已經都拿好了，就去結帳
         {
             _targetCabinet.ReleaseValidPosition(targetCabinetTransform);
             ChangeState(NPCState.JoinCounterQueue);
         }
-        else
+        else // 還有要拿的商品，回到FindNextCabinet
         {
             _targetCabinet.ReleaseValidPosition(targetCabinetTransform);
             ChangeState(NPCState.FindNextCabinet);
@@ -169,7 +172,7 @@ public class NPCController : MonoBehaviour
     
     void JoinCounterQueue()
     {
-        CounterQueueManager.instance.JoinQueue(this);
+        CounterQueueManager.instance.JoinQueue(this); // 被加進排隊Queue
         ChangeState(NPCState.SetCounterQueue);
     }
     
@@ -178,7 +181,7 @@ public class NPCController : MonoBehaviour
         waypointNavigator.SetAgentInStoreDestination(queuePosition);
     }
     
-    public IEnumerator MovingToNextCounterQueue()
+    public IEnumerator MovingToNextCounterQueue() // 移動到下一個排隊
     {
         while (!waypointNavigator.isAgentStopped &&
                (waypointNavigator.npcNavAgent.pathPending || waypointNavigator.npcNavAgent.remainingDistance > waypointNavigator.npcNavAgent.stoppingDistance))
@@ -190,7 +193,7 @@ public class NPCController : MonoBehaviour
         ChangeState(NPCState.CheckQueuePosition);
     }
     
-    private void CheckQueuePosition()
+    private void CheckQueuePosition() // 檢查是否為第一個結帳的人，是就開始拿出商品
     {
         npcAnimator.ResetAnimation();
         if(currentQueueIndex == 0)
@@ -199,12 +202,12 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    private IEnumerator TakeoutProduct()
+    private IEnumerator TakeoutProduct() // 開始結帳 拿出商品
     {
         takingOutProductFlag = true;
         AudioSource tempAS = SoundManager.instance.GetAvailableAudioSource();
         if(tempAS == null) Debug.LogError("Audio Source is null");
-        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
+        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth) // 如果是懶人 放商品要很慢
         {
             npcAnimator.NPC_PutdownSlothAnimation();
         }
@@ -215,7 +218,7 @@ public class NPCController : MonoBehaviour
             for (int i = 0; i < product.quantity; i++)
             {
                 GameObject unCheckedProduct;
-                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
+                if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) // 如果是暴怒的人 商品要用丟的
                 {
                     StartCoroutine(SoundManager.instance.PlayClip_Angry());
                     npcAnimator.NPC_ThrowAnimation();
@@ -227,7 +230,7 @@ public class NPCController : MonoBehaviour
                 }
                 else
                 {
-                    if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth)
+                    if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.Sloth) // 如果是懶人 加上打呼聲
                     {
                         yield return new WaitForSeconds(1.5f);
                         if(!tempAS.isPlaying) StartCoroutine(SoundManager.instance.PlayClip_Snore(tempAS));
@@ -238,7 +241,7 @@ public class NPCController : MonoBehaviour
                         yield return new WaitForSeconds(0.65f);
                     }
                     StartCoroutine(SoundManager.instance.PlayClip_ItemPop());
-                    unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, productInitArea);
+                    unCheckedProduct = ProductManager.instance.InstantiateProductObj(product, productInitArea); // 正常商品生成
                 }
                 unCheckedProductsList.Add(unCheckedProduct);
                 // unCheckedProduct.transform.SetParent(unCheckedProducts);
@@ -251,7 +254,7 @@ public class NPCController : MonoBehaviour
         ChangeState(NPCState.WaitingForCheckout);
     }
     
-    public void DestroyCheckedProducts()
+    public void DestroyCheckedProducts() // 顧客離開要刪除商品
     {
         foreach (var p in unCheckedProductsList)
         {
@@ -259,11 +262,11 @@ public class NPCController : MonoBehaviour
         }
     }
     
-    IEnumerator WaitingForCheckout()
+    IEnumerator WaitingForCheckout() //等待玩家結帳
     {
         while (!IsAllCheckedOut())
         {
-            if (!_isRaging && npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) StartCoroutine(Raging());
+            if (!_isRaging && npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) StartCoroutine(Raging()); // 暴怒的人 會催人
             yield return null;
         }
         ChangeState(NPCState.Pay);
@@ -282,10 +285,10 @@ public class NPCController : MonoBehaviour
         }
     }
         
-    IEnumerator Pay()
+    IEnumerator Pay() // 顧客付錢
     {
         _isPaid = true;
-        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry)
+        if (npcCustomer.npcPersonality.personality == NPCPersonality.Personality.InHurry) //暴怒的人用丟的
         {
             StartCoroutine(SoundManager.instance.PlayClip_Angry());
             npcAnimator.NPC_ThrowAnimation();
@@ -307,7 +310,7 @@ public class NPCController : MonoBehaviour
         ChangeState(NPCState.WaitingForReceiveChange);
     }
     
-    void WaitingForReceiveChange()
+    void WaitingForReceiveChange() // 等待玩家收錢 顧客才會離開
     {
         if(moneyObj.GetComponent<MoneyObj>().playerReceived)
         {
@@ -319,7 +322,7 @@ public class NPCController : MonoBehaviour
         }
     }
     
-    IEnumerator ExitStore() 
+    IEnumerator ExitStore() // NPC離開商店
     {
         if (!exitStoreFlag)
         {
@@ -368,7 +371,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    void StateTree()
+    void StateTree() // 行為狀態機
     {
         switch (currentNpcState)
         {

@@ -9,7 +9,7 @@ public class HomeBlockade : MonoBehaviour, IInteractable
     
     public void Interact(Transform interactorTransform)
     {
-        if (interactorTransform.GetComponent<Player>().balance >= House.instance.price)
+        if (interactorTransform.GetComponent<Player>().balance >= House.instance.price) // 玩家購買房子
         {
             StartCoroutine(SoundManager.instance.PlayClip_BuyHouse());
             interactorTransform.GetComponent<Player>().balance -= House.instance.price;

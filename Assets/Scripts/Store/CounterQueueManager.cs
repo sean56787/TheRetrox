@@ -14,7 +14,7 @@ public class CounterQueueManager : MonoBehaviour
         if(instance == null) instance = this;
     }
 
-    public void JoinQueue(NPCController customerController)
+    public void JoinQueue(NPCController customerController) //將NPC註冊進佇列
     {
         if (_customerQueue.Count < customerQueuePositions.Length)
         {
@@ -31,7 +31,7 @@ public class CounterQueueManager : MonoBehaviour
         }
     }
 
-    public void UpdateQueue()
+    public void UpdateQueue() //更新NPC佇列
     {
         int index = 0;
         foreach (var customerController in _customerQueue)

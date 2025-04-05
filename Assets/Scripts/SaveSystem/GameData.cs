@@ -9,7 +9,7 @@ public class GameData
     public float gameCurrentTime;
     public string saveTime;
     public bool isHomeUnlocked;
-    public GameData(Player player)
+    public GameData(Player player) // 存檔系統用
     {
         playerMoney = player.balance;
         playerPosition = new float[3]

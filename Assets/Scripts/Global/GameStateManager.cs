@@ -35,10 +35,10 @@ public class GameStateManager : MonoBehaviour
     {
         Player.instance.transform.position = defaultPlayerPosition; // 重置玩家位置
         Player.instance.balance = defaultPlayerMoney; // 重置玩家金錢
-        Player.instance.homeUnlocked = false;
+        Player.instance.homeUnlocked = false; // 重置房屋解鎖
         PlayerUI.instance.UpdatePlayerUI();
         DayNightManager.instance.ResetTime(); // 重設時間
-        ResetNPCStuffOnly();
+        ResetNPCStuffOnly(); // 刪除NPC
     }
 
     public void ResetNPCStuffOnly()
@@ -69,7 +69,7 @@ public class GameStateManager : MonoBehaviour
         isSaveLoadUIOpening = state;
     }
     
-    public void UpdateCursorState()
+    public void UpdateCursorState() // 滑鼠是否顯示
     {
         if (inMainMenu || inGamePaused || isSaveLoadUIOpening)
         {
@@ -83,12 +83,12 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    public void StopGame()
+    public void StopGame() // 暫停遊戲
     {
         Time.timeScale = 0f;
     }
     
-    public void ResumeGame()
+    public void ResumeGame() // 繼續遊戲
     {
         Time.timeScale = 1f;
     }

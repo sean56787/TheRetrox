@@ -78,7 +78,7 @@ public class HintBoard : MonoBehaviour, IInteractable
     {
         if (Input.GetMouseButtonDown(0) && isHolding)
         {
-            currentImgIndex += 1;
+            currentImgIndex += 1; // 下一張hint
             if(currentImgIndex > hintImgList.Count - 1) currentImgIndex = 0;
             UpdateHintImg();
         }
@@ -96,13 +96,13 @@ public class HintBoard : MonoBehaviour, IInteractable
         }
     }
     
-    void Holding()
+    void Holding() 
     {
         transform.position = playerCameraTransform.position + playerCameraTransform.TransformDirection(new Vector3(0.14f, 0.2f, 0.4f));
         Vector3 dirToPlayer = playerCameraTransform.forward;
-        Quaternion rotation = Quaternion.LookRotation(dirToPlayer);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 20f);
-        GetComponent<Rigidbody>().isKinematic = true;
+        Quaternion rotation = Quaternion.LookRotation(dirToPlayer); // 看向玩家
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 20f); // 過渡
+        GetComponent<Rigidbody>().isKinematic = true; // 拿著時不會碰撞
     }
 
     void UpdateHintImg()

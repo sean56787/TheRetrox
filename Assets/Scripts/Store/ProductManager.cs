@@ -8,7 +8,7 @@ public class ProductManager : MonoBehaviour
     public static ProductManager instance;
     public List<GameObject> productPrefabs = new List<GameObject>();
     private Dictionary<string, List<Product>> _menu;
-    private void Awake()
+    private void Awake() //這裡設置商品價格
     {
         if(instance == null) instance = this;
         Product cola = InitProduct("Cola", "Drink", 1f, -1); 

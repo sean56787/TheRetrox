@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         Transform playerBody = transform.Find("body");
-        if (playerBody != null)
+        if (playerBody != null) // 使用PhysicMaterial 減少玩家與物體摩擦
         {
             playerCollider = playerBody.GetComponent<Collider>();
             if (playerCollider)
@@ -70,24 +70,24 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // drag 內部減速 不影響PhysicMat
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f,groundLayer);
-        KeyInput();
-        SpeedControl();
-        CheckMovementState();
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f,groundLayer); //雷射檢查是否觸地
+        KeyInput(); // WASD:移動 SPACE:跳
+        SpeedControl(); // 限制速度
+        CheckMovementState(); // 檢查走路或跑步
         if (isGrounded)
             _rb.drag = groundDrag;
         else
-            _rb.drag = 0;
-        _rb.useGravity = !IsOnSlope();
+            _rb.drag = 0; // 在空中摩擦:0
+        _rb.useGravity = !IsOnSlope(); // 上坡先關掉重力
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // 物理移動應放在FixedUpdate
     {
         MovePlayer();
         //ClimbStair();
     }
 
-    private void KeyInput()
+    private void KeyInput() // WASD:移動 SPACE:跳
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         {
             readyToJump = false;
             Jump();
-            Invoke(nameof(ResetJump), jumpCoolDown);
+            Invoke(nameof(ResetJump), jumpCoolDown); // 跳躍冷卻
         }
     }
 
@@ -121,19 +121,19 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 ProjectOnPlaneGetSlopeDir()
     {
-        return Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal).normalized;
+        return Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal).normalized; // 獲得上坡方向
     }
     
     private void MovePlayer()
     {
         _moveDirection = playerDirection.forward * _verticalInput + playerDirection.right * _horizontalInput; // 原始方向
-        if (IsOnSlope())
+        if (IsOnSlope()) // 在走上坡
         {
             _rb.AddForce(ProjectOnPlaneGetSlopeDir() * _moveSpeed, ForceMode.Force);
             // _rb.AddForce(VectorCrossGetSlopeDir() * _moveSpeed, ForceMode.Force);
         }
         
-        if(isGrounded)
+        if(isGrounded) // 在地面
         {
             _rb.AddForce(_moveDirection.normalized * _moveSpeed, ForceMode.Force); //  ForceMode.Force持續推力
             if (SoundManager.instance != null && 
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-        if (flatVel.magnitude > _moveSpeed)
+        if (flatVel.magnitude > _moveSpeed) // 限制目前速度 在 _moveSpeed
         {
             Vector3 limitedVel = flatVel.normalized * _moveSpeed;
             _rb.velocity = new Vector3(limitedVel.x, _rb.velocity.y, limitedVel.z);
@@ -172,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
             SoundManager.instance.playerFootstepDelay = 0.5f;
         }
     }
-    private void Jump()
+    private void Jump() // 跳
     {
         _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z); // 重置Y
         _rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);

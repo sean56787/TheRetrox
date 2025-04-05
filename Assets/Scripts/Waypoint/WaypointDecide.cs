@@ -8,7 +8,7 @@ public class WaypointDecide : MonoBehaviour
 {
     public int branchRate = 50;
 
-    private void Update()
+    private void Update() //商店營業時有5成機率進入
     {
         if (GameStateManager.instance.isOperating)
         {

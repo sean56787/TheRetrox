@@ -59,7 +59,7 @@ public class Scanner : MonoBehaviour, IInteractable
         return $"Press E to Pick up {transform.name}";
     }
     
-    public void Use(Transform interactorTransform)
+    public void Use(Transform interactorTransform) //掃描商品
     {
         GameObject itemToScan = interactorTransform.GetComponent<PlayerInteract>().GetInteractableObj();
         if (isHolding)

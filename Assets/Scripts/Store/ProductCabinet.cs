@@ -40,7 +40,7 @@ public class ProductCabinet : MonoBehaviour
             OnCustomerProductRequest?.Invoke(arg1, arg2);
         }
     }
-    public void CustomerGetProduct(Queue<Product> currentProductQueue, Product targetProduct)
+    public void CustomerGetProduct(Queue<Product> currentProductQueue, Product targetProduct) // 顧客拿商品
     {
         foreach (var productInStock in stock)
         {

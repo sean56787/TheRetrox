@@ -39,7 +39,7 @@ public class NPCShoppingList : MonoBehaviour
         GenerateRandomItem();
         AddUpShoppingList();
     }
-    private void GenerateRandomItem()
+    private void GenerateRandomItem() //依照個性生成購買清單
     {
         if(ProductManager.instance == null) Debug.LogError("ProductManager.instance is null");
         maxPurchaseAmount = GetPurchaseAmount();
@@ -87,7 +87,7 @@ public class NPCShoppingList : MonoBehaviour
                 break;
         }
     }
-    private void AddUpShoppingList()
+    private void AddUpShoppingList() //轉換
     {
         Dictionary<string, Product> calculationDic = new Dictionary<string, Product>();
 
@@ -107,7 +107,7 @@ public class NPCShoppingList : MonoBehaviour
         }
         targetShoppingList = calculationDic.Values.ToList();
     }
-    private int GetPurchaseAmount()
+    private int GetPurchaseAmount() // 個性決定購買數量
     {
         switch (_npcPersonality.personality)
         {

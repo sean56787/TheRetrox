@@ -25,7 +25,7 @@ public class GameSaveSystem : MonoBehaviour
     private void Start()
     {
         saveloadUI.SetActive(false);
-        CheckSaveDir();
+        CheckSaveDir();                 // 先檢查預設存檔位置: C:\Users\名字\AppData\LocalLow\sean56787\One Receipt Away
         UpdateSaveSlots();
     }
 
@@ -47,7 +47,7 @@ public class GameSaveSystem : MonoBehaviour
         }
     }
     
-    public void SaveGame(int slot)
+    public void SaveGame(int slot) // 儲存遊戲
     {
         string filePath = $"{_savePath}/save_0{slot}.json";
         Debug.Log($"going to write {filePath}");
@@ -57,7 +57,7 @@ public class GameSaveSystem : MonoBehaviour
         UpdateSaveSlots();
     }
     
-    public void LoadGame(int slot)
+    public void LoadGame(int slot) // 讀取遊戲
     {
         if(!IsGameStateManagerAvailable()) Debug.LogError("NO GSM");
         string filePath = $"{_savePath}/save_0{slot}.json";
@@ -86,7 +86,7 @@ public class GameSaveSystem : MonoBehaviour
         }
     }
     
-    void UpdateSaveSlots()
+    void UpdateSaveSlots() // 更新檔案
     {
         for (int i = 0; i < 3; i++)
         {

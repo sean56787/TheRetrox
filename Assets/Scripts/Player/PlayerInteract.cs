@@ -22,10 +22,10 @@ public class PlayerInteract : MonoBehaviour
         if(instance == null) instance = this;
     }
 
-    private void Update()
+    private void Update() // 玩家主要控制
     {
         _currentInteractable = GetInteractableObj()?.GetComponent<IInteractable>();
-        if (Input.GetKeyDown(KeyCode.E) && _currentInteractable != null)
+        if (Input.GetKeyDown(KeyCode.E) && _currentInteractable != null) //拿取
         {
             _currentInteractable.Interact(this.gameObject.transform);
         }
@@ -40,7 +40,7 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    public GameObject GetInteractableObj()
+    public GameObject GetInteractableObj() // 使用RaycastHit檢測物品是否可以互動
     {
         Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
         RaycastHit hit;
@@ -54,7 +54,7 @@ public class PlayerInteract : MonoBehaviour
         return null;
     }
     
-    void ThrowHolingItem()
+    void ThrowHolingItem() //丟出去
     {
         GameObject lastHoldingItem = holdingItem; //先存起來
         holdingItem.GetComponent<IInteractable>().Interact(this.gameObject.transform); // 再解除

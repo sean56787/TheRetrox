@@ -32,13 +32,13 @@ public class EscMenu : MonoBehaviour
             }
         }
     }
-    public void Resume()
+    public void Resume() // 繼續遊戲
     {
         CloseEscMenu();
         GameStateManager.instance.ResumeGame();
     }
 
-    public void Pause()
+    public void Pause() // 暫停遊戲
     {
         OpenEscMenu();
         GameStateManager.instance.StopGame();
@@ -58,7 +58,7 @@ public class EscMenu : MonoBehaviour
         GameStateManager.instance.UpdateCursorState();
         pauseUI.SetActive(false);
     }
-    public void BackToMainMenu()
+    public void BackToMainMenu() // 回到主選單
     {
         Resume();
         MainMenu.instance.ActivateMainMenuselectButtonsUI();

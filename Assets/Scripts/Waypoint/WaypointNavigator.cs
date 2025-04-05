@@ -49,7 +49,7 @@ public class WaypointNavigator : MonoBehaviour
     private void Update()
     {
         if(gameObject == null) return;
-        if (!isInStore)
+        if (!isInStore) // 如果在街上(不在店裡)
         {
             CheckIsWalking();
             if (isWalking)
@@ -130,7 +130,7 @@ public class WaypointNavigator : MonoBehaviour
         if(!isAgentStopped) npcNavAgent.SetDestination(destination.position);
     }
 
-    public void StopNavAgent()
+    public void StopNavAgent() //NPC到達終點 清除agent
     {
         if(isAgentStopped) return;
         if (npcNavAgent != null)

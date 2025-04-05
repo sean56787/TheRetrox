@@ -8,7 +8,7 @@ public class SleepBag : MonoBehaviour, IInteractable
     public string _itemName = "SleepBag";
     public float canvasGroupFadeDuration = 3f;
     
-    public void Interact(Transform interactorTransform)
+    public void Interact(Transform interactorTransform) // 商店睡袋
     {
         if (DayNightManager.instance.isDaytime)
         {
@@ -16,7 +16,7 @@ public class SleepBag : MonoBehaviour, IInteractable
         }
         else
         {
-            DayNightManager.instance.OnPlayerSleep?.Invoke();
+            DayNightManager.instance.OnPlayerSleep?.Invoke(); // 進入下一天
         }
     }
 

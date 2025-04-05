@@ -62,7 +62,7 @@ public class OperatingSwitch: MonoBehaviour, IInteractable
         return _itemName;
     }
 
-    public void SignLight()
+    public void SignLight() // 招牌燈光
     {
         if (GameStateManager.instance.isOperating)
         {

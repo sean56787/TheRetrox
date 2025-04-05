@@ -8,6 +8,6 @@ public class MoveCamera : MonoBehaviour
     public Transform cameraPos;
     private void Update()
     {
-        transform.position = cameraPos.position;
+        transform.position = cameraPos.position; // 將相機固定到玩家頭部位置
     }
 }

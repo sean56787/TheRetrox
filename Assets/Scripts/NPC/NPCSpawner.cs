@@ -70,12 +70,12 @@ public class NPCSpawner : MonoBehaviour
         currentSpawnCount++;
     }
 
-    public void RemoveNPCFromInGameNPCList(GameObject npcToDelete)
+    public void RemoveNPCFromInGameNPCList(GameObject npcToDelete) // 從NPC清單刪除某NPC
     {
         inGameNPCList.Remove(npcToDelete);
     }
 
-    public void ResetAllNPCFromThisSpawner()
+    public void ResetAllNPCFromThisSpawner() // 刪除NPC
     {
         foreach (var npcToDelete in inGameNPCList.ToList())
         {
