@@ -25,16 +25,16 @@ public class PlayerInteract : MonoBehaviour
     private void Update() // 玩家主要控制
     {
         _currentInteractable = GetInteractableObj()?.GetComponent<IInteractable>();
-        if (Input.GetKeyDown(KeyCode.E) && _currentInteractable != null) //拿取
+        if (Input.GetKeyDown(KeyCode.E) && _currentInteractable != null)   //拿取
         {
             _currentInteractable.Interact(this.gameObject.transform);
         }
         
-        if (Input.GetKeyDown(KeyCode.F) && holdingItem) //使用手中物品
+        if (Input.GetKeyDown(KeyCode.F) && holdingItem)                 //使用手中物品
         {
             holdingItem.GetComponent<IInteractable>().Use(this.gameObject.transform);
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && holdingItem) // 丟棄 
+        else if (Input.GetKeyDown(KeyCode.Q) && holdingItem)            // 丟棄 
         {
             ThrowHolingItem();
         }
@@ -54,9 +54,9 @@ public class PlayerInteract : MonoBehaviour
         return null;
     }
     
-    void ThrowHolingItem() //丟出去
+    void ThrowHolingItem()                 //丟出去
     {
-        GameObject lastHoldingItem = holdingItem; //先存起來
+        GameObject lastHoldingItem = holdingItem;                                       //先存起來
         holdingItem.GetComponent<IInteractable>().Interact(this.gameObject.transform); // 再解除
         Rigidbody itemRb = lastHoldingItem.GetComponent<Rigidbody>();
         itemRb.isKinematic = false;

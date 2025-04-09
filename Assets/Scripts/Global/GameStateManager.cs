@@ -20,9 +20,11 @@ public class GameStateManager : MonoBehaviour
     {
         if(instance == null) instance = this;
     }
-
+    
     private void Start()
     {
+        QualitySettings.vSyncCount = 1; // vsync
+        Application.targetFrameRate = 60; // 幀率限制
         isOperating = false;
         inMainMenu = true;
         isInGame = false;

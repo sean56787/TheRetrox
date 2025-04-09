@@ -26,6 +26,7 @@ public class DayNightManager : MonoBehaviour
     public Image currentImage;
     public Sprite moon;
     public Sprite sun;
+    
     private void Awake()
     {
         if (instance == null)
@@ -46,11 +47,11 @@ public class DayNightManager : MonoBehaviour
 
     public void ResetTime()
     {
-        currentTime = 0f; // 回到早上6:00
+        currentTime = 0f;       // 回到早上6:00
     }
     private IEnumerator DayCycle()
     {
-        while (true) // TODO: while (true)不好看
+        while (true)
         {
             if (isDaytime)
             {
@@ -62,7 +63,7 @@ public class DayNightManager : MonoBehaviour
             {
                 currentImage.sprite = moon;
             }
-            if (currentTime >= dayDuration) // 超過時間進入夜晚
+            if (currentTime >= dayDuration)     // 超過時間進入夜晚
             {
                 if(isDaytime) SwitchToNight();
             }
@@ -79,7 +80,6 @@ public class DayNightManager : MonoBehaviour
 
     private void SwitchToNight()
     {
-        Debug.Log("SwitchToNight");
         sunLight.SetActive(false);
         isDaytime = false;
         LightSwitch(true);
@@ -92,11 +92,11 @@ public class DayNightManager : MonoBehaviour
 
     void SkipToDay()
     {
-        playerInteract.enabled = false; // 期間玩家不能互動
-        playerMovement.enabled = false; // 期間玩家不能移動
+        playerInteract.enabled = false;             // 期間玩家不能互動
+        playerMovement.enabled = false;             // 期間玩家不能移動
         StartCoroutine(ScreenFadeToBlack());
         
-        IEnumerator ScreenFadeToBlack() // 模擬閉上眼睛
+        IEnumerator ScreenFadeToBlack()             // 模擬閉上眼睛
         {
             yield return StartCoroutine(Fade(0, 1, fadeDuration));
             yield return new WaitForSeconds(2f);
@@ -104,12 +104,12 @@ public class DayNightManager : MonoBehaviour
             SwitchToDay();
         }
     
-        IEnumerator ScreenFadeToNormal() // 張開眼睛
+        IEnumerator ScreenFadeToNormal()            // 張開眼睛
         {
             yield return StartCoroutine(Fade(1, 0, fadeDuration));
         }
 
-        IEnumerator Fade(float startAlpha, float endAlpha, float duration) // 漸變暗
+        IEnumerator Fade(float startAlpha, float endAlpha, float duration)      // 漸變暗
         {
             float elapsed = 0f;
             Color color = fadePanel.color;
@@ -143,7 +143,7 @@ public class DayNightManager : MonoBehaviour
         DynamicGI.UpdateEnvironment();
     }
 
-    private void LightSwitch(bool x) // 夜晚開燈
+    private void LightSwitch(bool x)        // 夜晚開燈
     {
         foreach (var l in turnableLights)
         {

@@ -54,6 +54,7 @@ public class SleepBag : MonoBehaviour, IInteractable
             elaspedTime += Time.deltaTime;
             yield return null;
         }
+        
         PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha = 0;
         PlayerInteractUI.instance.HideHint();
         PlayerInteractUI.instance.interactableUIHintText.GetComponent<CanvasGroup>().alpha = 1;

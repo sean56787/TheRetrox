@@ -8,18 +8,23 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+    
     [Header("Audio Sources")]
     public AudioSource audioSourceForBGM;
+    public AudioSource audioSourceForPlayerWalk;
     
     public List<AudioSource> audioSourcePool = new();
     public int MAX_audioSource = 10;
+    
     [Header("button click clips")]
     public AudioClip ButtonClick_Clip;
+    
     [Header("footstep sound")]
     public AudioClip Footstep_Clip;
     public float playerFootstepVolume = 1f;
     public float playerFootstepDelay = 0.5f;
     public bool canPlayPlayerFootstep = true;
+    
     [Header("door sound")]
     public AudioClip DoorBell_Clip;
     [Header("scan sound")]
@@ -235,11 +240,10 @@ public class SoundManager : MonoBehaviour
 
     public IEnumerator PlayClip_PlayerWalk()
     {
-        AudioSource validAudioSource = GetAvailableAudioSource();
-        if (validAudioSource != null)
+        if (audioSourceForPlayerWalk != null)
         {
             canPlayPlayerFootstep = false;
-            validAudioSource.PlayOneShot(Footstep_Clip, playerFootstepVolume);
+            audioSourceForPlayerWalk.PlayOneShot(Footstep_Clip, playerFootstepVolume);
             yield return new WaitForSeconds(playerFootstepDelay);
             canPlayPlayerFootstep = true;
         }

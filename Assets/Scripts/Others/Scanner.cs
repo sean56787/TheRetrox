@@ -41,7 +41,11 @@ public class Scanner : MonoBehaviour, IInteractable
         }
         
         if(isHolding) DisableColliders();
-        else EnableColliders();
+        else
+        {
+            GetComponent<Rigidbody>().isKinematic = false;
+            EnableColliders();
+        }
     }
 
     public string GetUsage()
@@ -81,10 +85,6 @@ public class Scanner : MonoBehaviour, IInteractable
         if(isHolding)
         {
             Holding();
-        }
-        else
-        {
-            GetComponent<Rigidbody>().isKinematic = false;
         }
     }
     

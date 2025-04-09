@@ -15,8 +15,4 @@ public class Counter : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        
-    }
 }

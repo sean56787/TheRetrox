@@ -21,26 +21,13 @@ public class WaypointNavigator : MonoBehaviour
     public bool isInStore;
     public bool isAlreadyBought;
     public bool isAgentStopped;
-    private void Awake()
+
+    private void Start()
     {
         npcNavAgent = GetComponent<NavMeshAgent>();
         npcAnimator = GetComponent<NPCAnimator>();
-    }
-
-    private IEnumerator WaitForNPCController()
-    {
-        while (npcController == null)
-        {
-            npcController = FindObjectOfType<NPCController>();
-            yield return null;
-        }
         npcController = GetComponent<NPCController>();
         
-    }
-    
-    private void Start()
-    {
-        StartCoroutine(WaitForNPCController());
         direction = Mathf.RoundToInt(Random.Range(0f, 1f)); // 0 or 1
         if(!isAgentStopped) npcNavAgent.SetDestination(currentWaypoint.GetPosition());
         previousWaypoint = currentWaypoint;
@@ -83,6 +70,7 @@ public class WaypointNavigator : MonoBehaviour
             }
         }
     }
+    
     private void CheckIsWalking()
     {
         if(isAgentStopped) return;
@@ -101,6 +89,7 @@ public class WaypointNavigator : MonoBehaviour
             isWalking = false;
         }
     }
+    
     void WalkForward()
     {
         if (currentWaypoint.nextWayPoint is not null && !isInStore)

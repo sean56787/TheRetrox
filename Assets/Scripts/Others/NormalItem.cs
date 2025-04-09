@@ -29,10 +29,6 @@ public class NormalItem : MonoBehaviour, IInteractable
         {
             Holding();
         }
-        else
-        {
-            GetComponent<Rigidbody>().isKinematic = false;
-        }
     }
     
     void Holding()
@@ -63,7 +59,11 @@ public class NormalItem : MonoBehaviour, IInteractable
         }
         
         if(isHolding) DisableColliders();
-        else EnableColliders();
+        else
+        {
+            GetComponent<Rigidbody>().isKinematic = false;
+            EnableColliders();
+        }
     }
     
     public string GetInteractText()

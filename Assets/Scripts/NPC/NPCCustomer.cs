@@ -24,10 +24,6 @@ public class NPCCustomer : MonoBehaviour
         }
         SetNPCSpeed();
     }
-    private void Update()
-    {
-        SetNPCSpeed();
-    }
     private void SetNPCSpeed() // 依照NPC個性設置速度
     {
         switch (npcPersonality.personality)

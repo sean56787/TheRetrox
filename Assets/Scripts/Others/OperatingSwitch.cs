@@ -35,7 +35,6 @@ public class OperatingSwitch: MonoBehaviour, IInteractable
 
     public void Interact(Transform interactorTransform)
     {
-        Debug.Log("switch");
         StartCoroutine(SoundManager.instance.PlayClip_PressSwitch());
         GameStateManager.instance.isOperating = !GameStateManager.instance.isOperating;
         SignLight();

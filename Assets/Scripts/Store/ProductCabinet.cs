@@ -14,16 +14,14 @@ public class ProductCabinet : MonoBehaviour
     public List<ProductObj> stock = new();
     public List<Transform> customerQueueTransforms = new();
     public bool[] queueCheck = {false};
-    
     public event Action<Queue<Product>, Product> OnCustomerProductRequest;
-
     
-
     private void Start()
     {
         StartCoroutine(WaitForCabinetManager());
         OnCustomerProductRequest += CustomerGetProduct;
     }
+    
     private IEnumerator WaitForCabinetManager()
     {
         while (CabinetManager.instance == null)
@@ -33,6 +31,7 @@ public class ProductCabinet : MonoBehaviour
         }
         CabinetManager.instance.RegisterCabinet(this);
     }
+    
     public void CustomerProductRequestInvoker(Queue<Product> arg1, Product arg2)
     {
         if(OnCustomerProductRequest != null)
@@ -40,6 +39,7 @@ public class ProductCabinet : MonoBehaviour
             OnCustomerProductRequest?.Invoke(arg1, arg2);
         }
     }
+    
     public void CustomerGetProduct(Queue<Product> currentProductQueue, Product targetProduct) // 顧客拿商品
     {
         foreach (var productInStock in stock)
@@ -48,10 +48,10 @@ public class ProductCabinet : MonoBehaviour
             {
                 productInStock.productObjQuantity -= targetProduct.quantity;
                 currentProductQueue.Enqueue(new Product(productInStock.productObjName, productInStock.productObjCategory,productInStock.productObjPrice,targetProduct.quantity));
-                // Debug.Log($"架上商品: {productInStock.productObjName} 被拿走 {targetProduct.quantity} 個");
             }
         }
     }
+    
     public Transform GetValidPosition()
     {
         for (int i = 0; i < customerQueueTransforms.Count; i++)
@@ -64,13 +64,13 @@ public class ProductCabinet : MonoBehaviour
         }
         return null;
     }
+    
     public void ReleaseValidPosition(Transform trans)
     {
         for (int i = 0; i < customerQueueTransforms.Count; i++)
         {
             if (customerQueueTransforms[i] == trans)
             {
-                // Debug.Log($"Released: {trans.name}, :{i}");
                 queueCheck[i] = false;
             }
         }

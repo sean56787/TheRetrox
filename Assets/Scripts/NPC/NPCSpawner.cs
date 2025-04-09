@@ -20,7 +20,6 @@ public class NPCSpawner : MonoBehaviour
     public bool isInSpawnDelay = false;
     private void Start()
     {
-       
         foreach (var origin in originNPCList)
         {
             origin.SetActive(false);
@@ -39,7 +38,6 @@ public class NPCSpawner : MonoBehaviour
             isInSpawnDelay = true;
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
-            // if(GameStateManager.instance.isInGame) SpawnNPC(); // 遊戲進行才會生成
             SpawnNPC();
             isInSpawnDelay = false;
         }
@@ -49,12 +47,12 @@ public class NPCSpawner : MonoBehaviour
     {
         if(!DayNightManager.instance.isDaytime) return;
         Transform spawnPoint = worldSpawnPoint[Random.Range(0, worldSpawnPoint.Count)];
-        Vector3 randomPosition = spawnPoint.position + Random.insideUnitSphere * 1f; // 取以點為半徑1的隨機位置
-        randomPosition.y = spawnPoint.position.y; // 強制高度
+        Vector3 randomPosition = spawnPoint.position + Random.insideUnitSphere * 1f;          // 取以點為半徑1的隨機位置
+        randomPosition.y = spawnPoint.position.y;    // 強制高度
 
         NavMeshHit navHit;
         if (NavMesh.SamplePosition(randomPosition, out navHit, 2f,
-                NavMesh.AllAreas)) //球形半徑x找一個可以走的位置
+                NavMesh.AllAreas))          //球形半徑x找一個可以走的位置
         {
             GameObject randomNPC = originNPCList[Random.Range(0, originNPCList.Count)];
             GameObject newNPC = Instantiate(randomNPC, navHit.position, Quaternion.identity); //Quaternion.identity 保持原來方向
@@ -62,10 +60,6 @@ public class NPCSpawner : MonoBehaviour
             newNPC.transform.name = $"npc_{currentSpawnCount}";
             inGameNPCList.Add(newNPC);
             newNPC.SetActive(true);
-        }
-        else
-        {
-            Debug.Log($"找不到可生成位置");
         }
         currentSpawnCount++;
     }
@@ -75,12 +69,12 @@ public class NPCSpawner : MonoBehaviour
         inGameNPCList.Remove(npcToDelete);
     }
 
-    public void ResetAllNPCFromThisSpawner() // 刪除NPC
+    public void ResetAllNPCFromThisSpawner()                      // 刪除NPC
     {
         foreach (var npcToDelete in inGameNPCList.ToList())
         {
             npcToDelete.GetComponent<NPCController>().DestroyCheckedProducts(); // delete product(if exist)
-            npcToDelete.GetComponent<WaypointNavigator>().StopNavAgent(); // stop agent
+            npcToDelete.GetComponent<WaypointNavigator>().StopNavAgent();       // stop agent
             RemoveNPCFromInGameNPCList(npcToDelete);
             Destroy(npcToDelete);
         }

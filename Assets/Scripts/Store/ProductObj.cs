@@ -16,6 +16,7 @@ public class ProductObj : MonoBehaviour, IInteractable
     private Outline _outline;
     public bool isHolding;
     private string _itemName;
+    
     private void Awake()
     {
         product = ProductManager.InitProduct(productObjName, productObjCategory, productObjPrice, productObjQuantity);
@@ -25,7 +26,6 @@ public class ProductObj : MonoBehaviour, IInteractable
         productObjQuantity = product.quantity;
         isChecked = false;
         _itemName = productObjName;
-        
     }
 
     private void Start()
@@ -35,20 +35,11 @@ public class ProductObj : MonoBehaviour, IInteractable
         playerCameraTransform = GameObject.FindWithTag("PlayerCam").transform;
     }
 
-    private void Update()
-    {
-        Debug.DrawRay(transform.position, transform.up * 2, Color.green);
-    }
-
     private void LateUpdate()
     {
         if(isHolding)
         {
             Holding();
-        }
-        else
-        {
-            GetComponent<Rigidbody>().isKinematic = false;
         }
     }
     
@@ -62,7 +53,6 @@ public class ProductObj : MonoBehaviour, IInteractable
     
     public void Interact(Transform interactorTransform)
     {
-        Debug.Log($"interacted with {transform.name}");
         TogglePick(interactorTransform);
     }
 
@@ -77,6 +67,7 @@ public class ProductObj : MonoBehaviour, IInteractable
             return $"Press E to pick up {productObjName}";
         }
     }
+    
     public string GetUsage()
     {
         return "Remember to checkout this item before walk out the store ~";
@@ -105,7 +96,10 @@ public class ProductObj : MonoBehaviour, IInteractable
         {
             if(!isHolding) interactorTransform.GetComponent<PlayerInteract>().holdingItem = null;
         }
+        
+        if(!isHolding) GetComponent<Rigidbody>().isKinematic = false;
     }
+    
     public void Use(Transform interactorTransform)
     {
         

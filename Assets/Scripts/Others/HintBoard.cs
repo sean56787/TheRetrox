@@ -18,8 +18,6 @@ public class HintBoard : MonoBehaviour, IInteractable
     {
         clickCanvas.SetActive(isHolding);
         playerCameraTransform = GameObject.FindWithTag("PlayerCam").transform;
-        if(playerCameraTransform == null) 
-            Debug.LogError("PlayerCam is null");
         currentImgIndex = 0;
         hintCanvas.GetComponent<Image>().sprite = hintImgList[currentImgIndex].GetComponent<Image>().sprite;
     }

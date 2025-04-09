@@ -37,8 +37,10 @@ public class PlayerMovement : MonoBehaviour
     public float stepSmooth = 0.1f;
     public float maxSlopeAngle = 60;
     RaycastHit _slopeHit;
+    
     [Header("friction")]
     public Collider playerCollider;
+    
     private void Awake()
     {
         stepRaycastHigh.transform.position = new Vector3(stepRaycastHigh.transform.position.x, 
@@ -49,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         Transform playerBody = transform.Find("body");
-        if (playerBody != null) // 使用PhysicMaterial 減少玩家與物體摩擦
+        if (playerBody != null)     // 使用PhysicMaterial 減少玩家與物體摩擦
         {
             playerCollider = playerBody.GetComponent<Collider>();
             if (playerCollider)
@@ -61,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
                 playerCollider.material = noFriction;
             }
         }
-        
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
         Invoke(nameof(ResetJump), jumpCoolDown);
@@ -69,25 +70,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // drag 內部減速 不影響PhysicMat
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f,groundLayer); //雷射檢查是否觸地
-        KeyInput(); // WASD:移動 SPACE:跳
-        SpeedControl(); // 限制速度
-        CheckMovementState(); // 檢查走路或跑步
+        KeyInput();                      // WASD:移動 SPACE:跳
+        SpeedControl();                  // 限制速度
+        CheckMovementState();            // 檢查走路或跑步
         if (isGrounded)
             _rb.drag = groundDrag;
         else
-            _rb.drag = 0; // 在空中摩擦:0
-        _rb.useGravity = !IsOnSlope(); // 上坡先關掉重力
+            _rb.drag = 0;                // 在空中摩擦:0
+        _rb.useGravity = !IsOnSlope();   // 上坡先關掉重力
     }
 
-    private void FixedUpdate() // 物理移動應放在FixedUpdate
+    private void FixedUpdate()           // 物理移動應放在FixedUpdate
     {
         MovePlayer();
-        //ClimbStair();
+        
     }
 
-    private void KeyInput() // WASD:移動 SPACE:跳
+    private void KeyInput()                                 // WASD:移動 SPACE:跳
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         {
             readyToJump = false;
             Jump();
-            Invoke(nameof(ResetJump), jumpCoolDown); // 跳躍冷卻
+            Invoke(nameof(ResetJump), jumpCoolDown);        // 跳躍冷卻
         }
     }
 
@@ -109,19 +109,9 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
     
-    private Vector3 VectorCrossGetSlopeDir()
-    {
-        Vector3 groundNormal = _slopeHit.normal; // 取得坡面法線
-        Vector3 rightVector = Vector3.Cross(Vector3.up, groundNormal).normalized; // 計算坡面「橫向」方向
-        // 右手法則
-        Vector3 slopeForward = Vector3.Cross(groundNormal, rightVector).normalized; // 計算坡度「向上移動」方向
-
-        return ((_horizontalInput * rightVector) + (_verticalInput * slopeForward)).normalized;
-    }
-
     private Vector3 ProjectOnPlaneGetSlopeDir()
     {
-        return Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal).normalized; // 獲得上坡方向
+        return Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal).normalized;                     // 獲得上坡方向
     }
     
     private void MovePlayer()
@@ -130,10 +120,9 @@ public class PlayerMovement : MonoBehaviour
         if (IsOnSlope()) // 在走上坡
         {
             _rb.AddForce(ProjectOnPlaneGetSlopeDir() * _moveSpeed, ForceMode.Force);
-            // _rb.AddForce(VectorCrossGetSlopeDir() * _moveSpeed, ForceMode.Force);
         }
         
-        if(isGrounded) // 在地面
+        if(isGrounded)  // 在地面
         {
             _rb.AddForce(_moveDirection.normalized * _moveSpeed, ForceMode.Force); //  ForceMode.Force持續推力
             if (SoundManager.instance != null && 
@@ -152,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-        if (flatVel.magnitude > _moveSpeed) // 限制目前速度 在 _moveSpeed
+        if (flatVel.magnitude > _moveSpeed)                                       // 限制目前速度 在 _moveSpeed
         {
             Vector3 limitedVel = flatVel.normalized * _moveSpeed;
             _rb.velocity = new Vector3(limitedVel.x, _rb.velocity.y, limitedVel.z);
@@ -221,5 +210,15 @@ public class PlayerMovement : MonoBehaviour
                 _rb.position -= new Vector3(0f, -stepSmooth, 0f);
             }
         }
+    }
+    
+    private Vector3 VectorCrossGetSlopeDir()
+    {
+        Vector3 groundNormal = _slopeHit.normal; // 取得坡面法線
+        Vector3 rightVector = Vector3.Cross(Vector3.up, groundNormal).normalized; // 計算坡面「橫向」方向
+        // 右手法則
+        Vector3 slopeForward = Vector3.Cross(groundNormal, rightVector).normalized; // 計算坡度「向上移動」方向
+
+        return ((_horizontalInput * rightVector) + (_verticalInput * slopeForward)).normalized;
     }
 }

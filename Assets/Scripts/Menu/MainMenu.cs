@@ -56,6 +56,7 @@ public class MainMenu : MonoBehaviour
     {
         selectButtonsUI.SetActive(false);
     }
+    
     public void StartNewGame() // 開始新遊戲
     {
         // turn off main menu
@@ -68,9 +69,6 @@ public class MainMenu : MonoBehaviour
     
     public void ExitGame()
     {
-        Debug.Log("ExitGame");
         Application.Quit(); // 關閉遊戲
     }
-    
-    
 }

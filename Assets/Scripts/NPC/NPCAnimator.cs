@@ -14,13 +14,7 @@ public class NPCAnimator : MonoBehaviour
             Debug.LogError("no animator found");
         }
     }
-
-    // public void NPC_IdleAnimation()
-    // {
-    //     Debug.Log("idle animation");
-    //     ResetAnimation();
-    //     _animator.SetBool("idle", true);
-    // }
+    
     public void NPC_WalkAnimation()
     {
         ResetAnimation();
@@ -63,15 +57,4 @@ public class NPCAnimator : MonoBehaviour
         _animator.SetBool("run", false);
         _animator.SetBool("putdownSloth", false);
     }
-
-    // public float GetAnimationLength(string animationTag)
-    // {
-    //     AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-    //     if (stateInfo.IsTag(animationTag))
-    //     {
-    //         return stateInfo.length;
-    //     }
-    //     Debug.LogError("no animation clip found: "+ animationTag);
-    //     return 0f;
-    // }
 }

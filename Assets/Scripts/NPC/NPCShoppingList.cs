@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
 public class NPCShoppingList : MonoBehaviour
@@ -15,33 +14,23 @@ public class NPCShoppingList : MonoBehaviour
     private float _customerPaid;
     private void Start()
     {
-        StartCoroutine(WaitForNPCPersonality());
+        _npcPersonality = GetComponent<NPCPersonality>();
         if(ProductManager.instance == null || _npcPersonality == null)
         {
             throw new Exception("missing ProductManager or NPCPersonality");
         }
-
         totalPrice = 0;
         GenerateTargetShoppingList();
     }
-
-    private IEnumerator WaitForNPCPersonality()
-    {
-        while (_npcPersonality == null)
-        {
-            _npcPersonality = FindObjectOfType<NPCPersonality>();
-            yield return null;
-        }
-        _npcPersonality = GetComponent<NPCPersonality>();
-    }
+    
     private void GenerateTargetShoppingList()
     {
         GenerateRandomItem();
         AddUpShoppingList();
     }
+    
     private void GenerateRandomItem() //依照個性生成購買清單
     {
-        if(ProductManager.instance == null) Debug.LogError("ProductManager.instance is null");
         maxPurchaseAmount = GetPurchaseAmount();
         switch (_npcPersonality.personality)
         {

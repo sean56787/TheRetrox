@@ -50,7 +50,6 @@ public class GameSaveSystem : MonoBehaviour
     public void SaveGame(int slot) // 儲存遊戲
     {
         string filePath = $"{_savePath}/save_0{slot}.json";
-        Debug.Log($"going to write {filePath}");
         GameData data = new GameData(Player.instance);
         string jsData = JsonUtility.ToJson(data, true);
         File.WriteAllText(filePath, jsData);

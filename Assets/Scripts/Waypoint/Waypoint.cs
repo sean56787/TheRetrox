@@ -12,7 +12,7 @@ public class Waypoint : MonoBehaviour //NPC路標
     public bool isBranch;
     public float wayPointWidth = 2f;
     public bool isWaypointEnd;
-    public Vector3 GetPosition() //取的路標上某一點
+    public Vector3 GetPosition()      //取的路標上某一點
     {
         Vector3 minBound = transform.position + transform.right * wayPointWidth / 2f;
         Vector3 maxBound = transform.position - transform.right * wayPointWidth / 2f;

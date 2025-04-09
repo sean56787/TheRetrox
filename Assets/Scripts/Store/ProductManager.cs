@@ -8,6 +8,7 @@ public class ProductManager : MonoBehaviour
     public static ProductManager instance;
     public List<GameObject> productPrefabs = new List<GameObject>();
     private Dictionary<string, List<Product>> _menu;
+    
     private void Awake() //這裡設置商品價格
     {
         if(instance == null) instance = this;
@@ -34,11 +35,13 @@ public class ProductManager : MonoBehaviour
         if(_menu == null) Debug.LogError("Menu is null");
         return _menu;
     }
+    
     public static Product InitProduct(string pName, string pCategory, float pPrice, int pQuantity) // Product繼承了mono->無法直接new 變成先建立遊戲物件 再手動加入Product類
     {
         Product product = new Product(pName, pCategory, pPrice, pQuantity);
         return product;
     }
+    
     public GameObject InstantiateProductObj(Product productToInstantiate, Transform initPos) 
     {
         foreach (var prefab in productPrefabs)

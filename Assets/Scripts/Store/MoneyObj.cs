@@ -29,7 +29,6 @@ public class MoneyObj : MonoBehaviour, IInteractable
     
     private void Update()
     {
-        Debug.DrawRay(transform.position, transform.up * 2, Color.green);
         if (absorbing)
         {
             transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, Time.deltaTime * 3f);
